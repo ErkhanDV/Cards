@@ -31,3 +31,4 @@ function sumOfCards(cards) {
   }
   return sum;
 }
+
