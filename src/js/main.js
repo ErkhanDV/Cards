@@ -15,3 +15,19 @@ function randomCard(deck) {
   let index = Math.floor(Math.random() * deck.length);
   return deck.splice(index, 1)[0];
 }
+
+function sumOfCards(cards) {
+  let sum = 0;
+  let acesCount = 0;
+  for (let card of cards) {
+    sum += card[2];
+    if (card[0] === 'A') {
+      acesCount += 1;
+    }
+    if (sum > 21) {
+      sum -= acesCount * 10;
+      acesCount = 0;
+    }
+  }
+  return sum;
+}
