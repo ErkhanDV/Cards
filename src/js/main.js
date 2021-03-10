@@ -1,3 +1,7 @@
+var diller = [];
+var player = [];
+var deck = [];
+
 function createDeck() {
   let deck = [];
   let worth = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
@@ -33,12 +37,10 @@ function sumOfCards(cards) {
 }
 
 function showCard(card) {
-  let cardName = `${card[0]}${card[1]}`;
-  return cardName;  
+  return `${card[0]}${card[1]}`;
 }
 
 function showCards(cards) {
-  showCard(card);
-  let cardsOnHand = cards.map(showCard(card)).join(' ');
-  return cardsOnHand;
+  let cardsOnHand = cards.map(showCard).join(' ');
+  return `${sumOfCards(cards)} (${cardsOnHand})`;
 }
