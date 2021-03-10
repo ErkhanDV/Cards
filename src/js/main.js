@@ -32,3 +32,13 @@ function sumOfCards(cards) {
   return sum;
 }
 
+function showCard(card) {
+  let cardName = `${card[0]}${card[1]}`;
+  return cardName;  
+}
+
+function showCards(cards) {
+  showCard(card);
+  let cardsOnHand = cards.map(showCard(card)).join(' ');
+  return cardsOnHand;
+}
