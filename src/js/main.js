@@ -2,6 +2,11 @@ var diller = [];
 var player = [];
 var deck = [];
 
+document.addEventListener('DOMContentLoaded', function() {
+  start(); 
+  }
+);
+
 function createDeck() {
   let deck = [];
   let worth = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
@@ -43,4 +48,14 @@ function showCard(card) {
 function showCards(cards) {
   let cardsOnHand = cards.map(showCard).join(' ');
   return `${sumOfCards(cards)} (${cardsOnHand})`;
+}
+
+function start() {
+  console.log("New round");
+  deck = createDeck();
+  diller = [];
+  player = [];
+  player.push(randomCard(deck), randomCard(deck));
+  diller.push(randomCard(deck), randomCard(deck));
+  console.log(showCards(player));
 }
