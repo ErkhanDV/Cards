@@ -58,4 +58,22 @@ function start() {
   player.push(randomCard(deck), randomCard(deck));
   diller.push(randomCard(deck), randomCard(deck));
   console.log(showCards(player));
+  if (sumOfCards(player) == 21) {
+    findWinner();
+  }
+}
+
+function findWinner () {
+  let sumOfPlayer = sumOfCards(player);
+  let sumOfDiller = sumOfCards(diller);
+  if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
+    console.log ('Tied!');
+  } else if (sumOfPlayer > 21) {
+    console.log('Diller WIN!');
+  } else if (sumOfDiller > 21 || sumOfPlayer > sumOfDiller) {
+    console.log('Player WIN!');
+  } else {
+    console.log('Diller WIN!');
+  }
+  start();
 }
