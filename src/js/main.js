@@ -4,8 +4,7 @@ var deck = [];
 
 document.addEventListener('DOMContentLoaded', function() {
   start(); 
-  }
-);
+  });
 
 function createDeck() {
   let deck = [];
