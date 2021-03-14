@@ -1,0 +1,12 @@
+.buttons > .button-regular {
+  display: inline-block;
+}
+.buttons.buttons-start > .button-regular {
+  display: none;
+}
+.buttons > .button-start {
+  display: none; 
+}
+.buttons.buttons-start > .button-start {
+  display: block;
+}

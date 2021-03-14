@@ -4,10 +4,29 @@
 
   <meta charset='utf-8'>
   <title>Cards</title>
+  <link href="src/css/main.css" rel="stylesheet">
 
 </head>
 
 <body>
+
+  <div>
+    Результат: 
+    <span id='result'></span>
+  </div>
+  <div>
+    Карты дилера: 
+    <span id='diller-cards'></span>
+  </div>
+  <div>
+    Карты игрока: 
+    <span id='player-cards'></span>
+  </div>
+  <div class='buttons'>
+    <input id='get-card' class='button-regular' type='submit' value='Взять карту'>
+    <input id='end-round' class='button-regular' type='submit' value='Завершить'>
+    <input id='new-round' class='button-start' type='submit' value='Новый раунд'>
+  </div>
 
   <script src='src/js/main.js'></script> 
 
