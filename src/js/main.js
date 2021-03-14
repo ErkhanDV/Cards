@@ -2,9 +2,9 @@ var diller = [];
 var player = [];
 var deck = [];
 
-document.addEventListener('DOMContentLoaded', function() {
-  start(); 
-  });
+document.addEventListener('DOMContentLoaded', function(evt) {
+  start();
+});
 
 function createDeck() {
   let deck = [];
@@ -75,4 +75,22 @@ function findWinner () {
     console.log('Diller WIN!');
   }
   start();
+}
+
+function addDillerCard(untillimit =false) {
+  if (sumOfCards(diller) >= 17) return;
+  diller.push(randomCard(deck));
+  if (untillimit) {
+    addDillerCard(true);
+  }
+}
+
+function addCard() {
+  addDillerCard();
+  player.push(randomCard(deck));
+  console.log(showCards(player));
+  if (sumOfCards(player) >= 21) {
+    addDillerCard(true);
+    findWinner();
+  }
 }
