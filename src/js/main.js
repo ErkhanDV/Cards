@@ -77,7 +77,7 @@ function findWinner () {
   start();
 }
 
-function addDillerCard(untillimit =false) {
+function addDillerCard(untillimit=false) {
   if (sumOfCards(diller) >= 17) return;
   diller.push(randomCard(deck));
   if (untillimit) {
