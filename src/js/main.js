@@ -62,7 +62,7 @@ function start() {
   }
 }
 
-function findWinner () {
+function findWinner() {
   let sumOfPlayer = sumOfCards(player);
   let sumOfDiller = sumOfCards(diller);
   if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
@@ -74,6 +74,9 @@ function findWinner () {
   } else {
     console.log('Diller WIN!');
   }
+  console.log(`Diller cards: ${showCards(diller)}`);
+  console.log(`Player cards: ${showCards(player)}`);
+  console.log('----------');
   start();
 }
 
