@@ -90,7 +90,11 @@ function addCard() {
   player.push(randomCard(deck));
   console.log(showCards(player));
   if (sumOfCards(player) >= 21) {
-    addDillerCard(true);
-    findWinner();
+    end();
   }
+}
+
+function end() {
+  addDillerCard(true);
+  findWinner();
 }
