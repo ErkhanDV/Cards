@@ -4,6 +4,18 @@ var deck = [];
 
 document.addEventListener('DOMContentLoaded', function(evt) {
   start();
+  let getCardButton = document.getElementById('get-card');
+  getCardButton.addEventListener('click', function(evt) {
+  addCard();
+  });
+  let endRoundButton = document.getElementById('end-round');
+  endRoundButton.addEventListener('click', function(evt) {
+  end();
+  });
+  let newRoundButton = document.getElementById('new-round');
+  newRoundButton.addEventListener('click', function(evt) {
+  start();
+  });
 });
 
 function createDeck() {
@@ -53,14 +65,12 @@ function start() {
   for (let item of document.querySelectorAll("span")) {
     item.textContent = "";
   }
-  console.log("New round");
   document.getElementsByClassName('buttons')[0].classList.remove('buttons-start');
   deck = createDeck();
   diller = [];
   player = [];
   player.push(randomCard(deck), randomCard(deck));
   diller.push(randomCard(deck), randomCard(deck));
-  console.log(showCards(player));
   document.getElementById('player-cards').textContent = showCards(player);
   if (sumOfCards(player) == 21) {
     findWinner();
@@ -71,22 +81,15 @@ function findWinner() {
   let sumOfPlayer = sumOfCards(player);
   let sumOfDiller = sumOfCards(diller);
   if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
-    console.log ('Tied!');
     document.getElementById('result').textContent = 'Tied!';
   } else if (sumOfPlayer > 21) {
-    console.log('Diller WIN!');
     document.getElementById('result').textContent = 'Diller WIN!';
   } else if (sumOfDiller > 21 || sumOfPlayer > sumOfDiller) {
-    console.log('Player WIN!');
     document.getElementById('result').textContent = 'Player WIN!';
   } else {
-    console.log('Diller WIN!');
     document.getElementById('result').textContent = 'Diller WIN!';
   }
-  console.log(`Diller cards: ${showCards(diller)}`);
   document.getElementById('diller-cards').textContent = showCards(diller);
-  console.log(`Player cards: ${showCards(player)}`);
-  console.log('----------');
   document.getElementsByClassName('buttons')[0].classList.add('buttons-start');
 }
 
@@ -101,7 +104,6 @@ function addDillerCard(untillimit=false) {
 function addCard() {
   addDillerCard();
   player.push(randomCard(deck));
-  console.log(showCards(player));
   document.getElementById('player-cards').textContent = showCards(player);
   if (sumOfCards(player) >= 21) {
     end();
