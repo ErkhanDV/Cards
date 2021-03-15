@@ -4,17 +4,20 @@ var deck = [];
 
 document.addEventListener('DOMContentLoaded', function(evt) {
   start();
+
   let getCardButton = document.getElementById('get-card');
   getCardButton.addEventListener('click', function(evt) {
-  addCard();
+    addCard();
   });
+
   let endRoundButton = document.getElementById('end-round');
   endRoundButton.addEventListener('click', function(evt) {
-  end();
+    end();
   });
+
   let newRoundButton = document.getElementById('new-round');
   newRoundButton.addEventListener('click', function(evt) {
-  start();
+    start();
   });
 });
 
