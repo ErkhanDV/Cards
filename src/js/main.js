@@ -2,21 +2,18 @@ var diller = [];
 var player = [];
 var deck = [];
 
-document.addEventListener('DOMContentLoaded', function(evt) {
+$( document ).ready(function(evt) {
   start();
 
-  let getCardButton = document.getElementById('get-card');
-  getCardButton.addEventListener('click', function(evt) {
+  $('#get-card').click(function(evt) {
     addCard();
   });
 
-  let endRoundButton = document.getElementById('end-round');
-  endRoundButton.addEventListener('click', function(evt) {
+  $('#end-round').click(function(evt) {
     end();
   });
 
-  let newRoundButton = document.getElementById('new-round');
-  newRoundButton.addEventListener('click', function(evt) {
+  $('#new-round').click(function(evt) {
     start();
   });
 });
@@ -65,7 +62,7 @@ function showCards(cards) {
 }
 
 function start() {
-    $('span').text('');
+  $('span').text('');
   $('.buttons').removeClass('buttons-start');
   deck = createDeck();
   diller = [];
