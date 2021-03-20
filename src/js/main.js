@@ -65,16 +65,14 @@ function showCards(cards) {
 }
 
 function start() {
-  for (let item of document.querySelectorAll("span")) {
-    item.textContent = "";
-  }
-  document.getElementsByClassName('buttons')[0].classList.remove('buttons-start');
+    $('span').text('');
+  $('.buttons').removeClass('buttons-start');
   deck = createDeck();
   diller = [];
   player = [];
   player.push(randomCard(deck), randomCard(deck));
   diller.push(randomCard(deck), randomCard(deck));
-  document.getElementById('player-cards').textContent = showCards(player);
+  $('#player-cards').text(showCards(player));
   if (sumOfCards(player) == 21) {
     findWinner();
   }
@@ -84,16 +82,16 @@ function findWinner() {
   let sumOfPlayer = sumOfCards(player);
   let sumOfDiller = sumOfCards(diller);
   if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
-    document.getElementById('result').textContent = 'Tied!';
+    $('#result').text('Tied!');
   } else if (sumOfPlayer > 21) {
-    document.getElementById('result').textContent = 'Diller WIN!';
+    $('#result').text('Diller WIN!');
   } else if (sumOfDiller > 21 || sumOfPlayer > sumOfDiller) {
-    document.getElementById('result').textContent = 'Player WIN!';
+    $('#result').text('Player WIN!');
   } else {
-    document.getElementById('result').textContent = 'Diller WIN!';
+    $('#result').text('Diller WIN!');
   }
-  document.getElementById('diller-cards').textContent = showCards(diller);
-  document.getElementsByClassName('buttons')[0].classList.add('buttons-start');
+  $('#diller-cards').text(showCards(diller));
+  $('.buttons').addClass('buttons-start');
 }
 
 function addDillerCard(untillimit=false) {
@@ -107,7 +105,7 @@ function addDillerCard(untillimit=false) {
 function addCard() {
   addDillerCard();
   player.push(randomCard(deck));
-  document.getElementById('player-cards').textContent = showCards(player);
+  $('#player-cards').text(showCards(player));
   if (sumOfCards(player) >= 21) {
     end();
   }
