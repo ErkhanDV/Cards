@@ -25,7 +25,11 @@ function createDeck() {
   let value = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ];
   for (let i = 0; i < suit.length; i++) {
     for (let j = 0; j < worth.length; j++) {
-      deck.push([ worth[j], suit[i], value[j] ]);
+      deck.push({
+        worth: worth[j],
+        suit: suit[i],
+        value: value[j]
+      });
     }
   }
   return deck;
@@ -40,8 +44,8 @@ function sumOfCards(cards) {
   let sum = 0;
   let acesCount = 0;
   for (let card of cards) {
-    sum += card[2];
-    if (card[0] === 'A') {
+    sum += card.value;
+    if (card.worth === 'A') {
       acesCount += 1;
     }
     if (sum > 21) {
@@ -53,7 +57,7 @@ function sumOfCards(cards) {
 }
 
 function showCard(card) {
-  return `${card[0]}${card[1]}`;
+  return `${card.worth}${card.suit}`;
 }
 
 function showCards(cards) {
