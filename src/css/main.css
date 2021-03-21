@@ -10,3 +10,7 @@
 .buttons.buttons-start > .button-start {
   display: block;
 }
+#cardPicture {
+  height: 240px;
+  width: 80px;
+}
