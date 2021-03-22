@@ -11,6 +11,23 @@
   display: block;
 }
 #cardPicture {
-  height: 240px;
-  width: 80px;
+  height: 80px;
+  width: 240px;
+}
+.cardRect {
+  fill: #dddddd;
+}
+.cardWorth {
+  font-family: Verdana;
+  font-size: 50px;
+}
+.cardSuit {
+  font-family: Verdana;
+  font-size: 15px;
+  fill: black;
+}
+.cardSuitRed {
+  font-family: Verdana;
+  font-size: 15px;
+  fill: red;
 }

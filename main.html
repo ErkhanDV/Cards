@@ -28,7 +28,27 @@
     <button id='new-round' class='button-start'>Новый раунд</button>
   </div>
 
-  <svg id='cardPicture' viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+  <svg id='cardPicture' viewBox='0 0 240 80' xmlns='http://www.w3.org/2000/svg'>
+    <g class='cardSuit'>
+      <rect x='5' y='5' rx='15' ry='15' class='cardRect' width="50" height="70"/>
+      <text x='30' y='60' class='cardWorth' text-anchor='middle'>J</text>
+      <text x='40' y='20'>&spades;</text>
+    </g>
+    <g class='cardSuit'>
+      <rect x='60' y='5' rx='15' ry='15' class='cardRect' width="50" height="70"/>
+      <text x='85' y='60' class='cardWorth' text-anchor='middle'>Q</text>
+      <text x='95' y='20'> &clubs;</text>
+    </g>
+    <g class='cardSuitRed'>
+      <rect x='115' y='5' rx='15' ry='15' class='cardRect' width="50" height="70"/>
+      <text x='140' y='60' class='cardWorth' text-anchor='middle'>K</text>
+      <text x='150' y='20'>&hearts;</text>
+    </g>
+    <g class='cardSuitRed'>
+      <rect x='170' y='5' rx='15' ry='15' class='cardRect' width="50" height="70"/>
+      <text x='195' y='60' class='cardWorth' text-anchor='middle'>A</text>
+      <text x='205' y='20'>&diams;</text>
+    </g>
     
   </svg>
 
