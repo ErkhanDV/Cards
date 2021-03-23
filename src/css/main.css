@@ -20,6 +20,7 @@
 .cardWorth {
   font-family: Verdana;
   font-size: 50px;
+  text-anchor: middle;
 }
 .cardSuit {
   font-family: Verdana;

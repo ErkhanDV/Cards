@@ -16,6 +16,12 @@ $( document ).ready(function(evt) {
   $('#new-round').click(function(evt) {
     start();
   });
+
+  const svgContainer = $(document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
+  svgContainer.attr ({
+    viewBox: 0 0 240 80;
+    id: cardPicture;
+  })
 });
 
 function createDeck() {
