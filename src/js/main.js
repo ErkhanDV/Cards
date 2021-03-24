@@ -77,6 +77,9 @@ function createDeck() {
           $(svgGroup).append(suitText);
           $(suitText).append(suitVisual[this.suit]);
           $(svgGroup).addClass(color[this.color]);
+        },
+        showCard() {
+          return `${this.worth}${this.suit}`;
         }
       });
     }
@@ -105,12 +108,8 @@ function sumOfCards(cards) {
   return sum;
 }
 
-function showCard(card) {
-  return `${card.worth}${card.suit}`;
-}
-
 function showCards(cards) {
-  let cardsOnHand = cards.map(showCard).join(' ');
+  let cardsOnHand = cards.map(card => card.showCard()).join(' ');
   return `${sumOfCards(cards)} (${cardsOnHand})`;
 }
 
@@ -155,14 +154,13 @@ function addDillerCard(untillimit=false) {
 
 function addCard() {
   addDillerCard();
-  player.push(randomCard(deck));
+  let card = randomCard(deck);
+  player.push(card);
+  dx = 55 * (player.length - 1);
+  card.cardImage(dx);
   $('#player-cards').text(showCards(player));
   if (sumOfCards(player) >= 21) {
     end();
-  }
-  for (card of player) {
-    dx = 55 * (player.length - 1);
-    card.cardImage(dx);
   }
 }
 
