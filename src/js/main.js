@@ -1,140 +1,18 @@
 var diller = [];
 var player = [];
 var deck = [];
+var suitVisual = {
+  c: '&clubs;',
+  d: '&diams;',
+  s: '&spades;',
+  h: '&hearts;'
+};
+var color = {
+  dark: 'colorCardBlack',
+  red: 'colorCardRed'
+};
 
 $( document ).ready(function(evt) {
-
-  let svgGroupOne = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  let firstRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-  $(firstRect)
-  .addClass('cardRect')
-  .attr({
-    x: 5,
-    y: 5,
-    rx: 15,
-    ry: 15,
-    width: 50,
-    height: 70
-  })
-  let worthOne = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(worthOne)
-  .addClass('cardWorthBlack')
-  .attr({
-    x: 30,
-    y: 60
-  })
-  let suitOne = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(suitOne)
-  .addClass('cardSuitBlack')
-  .attr({
-    x: 40,
-    y: 20
-  })
-  $(svgGroupOne).append(firstRect);
-  $('#cardPicture').append(svgGroupOne);
-  $(svgGroupOne).append(worthOne);
-  $(worthOne).append('J');
-  $(svgGroupOne).append(suitOne);
-  $(suitOne).append('&spades;');
-
-  let svgGroupTwo = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  let secondRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-  $(secondRect)
-  .addClass('cardRect')
-  .attr({
-    x: 60,
-    y: 5,
-    rx: 15,
-    ry: 15,
-    width: 50,
-    height: 70
-  })
-  let worthTwo = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(worthTwo)
-  .addClass('cardWorthBlack')
-  .attr({
-    x: 85,
-    y: 60
-  })
-  let suitTwo = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(suitTwo)
-  .addClass('cardSuitBlack')
-  .attr({
-    x: 95,
-    y: 20
-  })
-  $(svgGroupTwo).append(secondRect);
-  $('#cardPicture').append(svgGroupTwo);
-  $(svgGroupTwo).append(worthTwo);
-  $(worthTwo).append('Q');
-  $(svgGroupTwo).append(suitTwo);
-  $(suitTwo).append('&clubs;');
-
-  let svgGroupThree = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  let thirdRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-  $(thirdRect)
-  .addClass('cardRect')
-  .attr({
-    x: 115,
-    y: 5,
-    rx: 15,
-    ry: 15,
-    width: 50,
-    height: 70
-  })
-  let worthThree = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(worthThree)
-  .addClass('cardWorthRed')
-  .attr({
-    x: 140,
-    y: 60
-  })
-  let suitThree = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(suitThree)
-  .addClass('cardSuitRed')
-  .attr({
-    x: 150,
-    y: 20
-  })
-  $(svgGroupThree).append(thirdRect);
-  $('#cardPicture').append(svgGroupThree);
-  $(svgGroupThree).append(worthThree);
-  $(worthThree).append('K');
-  $(svgGroupThree).append(suitThree);
-  $(suitThree).append('&hearts;');
-
-  let svgGroupFour = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  let fourRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-  $(fourRect)
-  .addClass('cardRect')
-  .attr({
-    x: 170,
-    y: 5,
-    rx: 15,
-    ry: 15,
-    width: 50,
-    height: 70
-  })
-  let worthFour = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(worthFour)
-  .addClass('cardWorthRed')
-  .attr({
-    x: 195,
-    y: 60
-  })
-  let suitFour = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  $(suitFour)
-  .addClass('cardSuitRed')
-  .attr({
-    x: 205,
-    y: 20
-  })
-  $(svgGroupFour).append(fourRect);
-  $('#cardPicture').append(svgGroupFour);
-  $(svgGroupFour).append(worthFour);
-  $(worthFour).append('A');
-  $(svgGroupFour).append(suitFour);
-  $(suitFour).append('&diams;');
 
   start();
 
@@ -157,12 +35,49 @@ function createDeck() {
   let worth = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
   let suit = [ 'c', 'd', 's', 'h'];
   let value = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ];
+  let cardColor = [ 'dark', 'red', 'dark', 'red' ];
   for (let i = 0; i < suit.length; i++) {
     for (let j = 0; j < worth.length; j++) {
       deck.push({
         worth: worth[j],
         suit: suit[i],
-        value: value[j]
+        value: value[j],
+        color: cardColor[i], 
+        cardImage(dx) {
+          let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          $(rect)
+          .addClass('cardRect')
+          .attr({
+            x: 5 + dx,
+            y: 5,
+            rx: 15,
+            ry: 15,
+            width: 50,
+            height: 70
+          })
+          let worthText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          $(worthText)
+          .addClass('cardWorth')
+          .attr({
+            x: 30 + dx,
+            y: 60
+          })
+          let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          $(suitText)
+          .addClass('cardSuit')
+          .attr({
+            x: 40 + dx,
+            y: 20
+          })
+          $(svgGroup).append(rect);
+          $('#cardPicture').append(svgGroup);
+          $(svgGroup).append(worthText);
+          $(worthText).append(this.worth);
+          $(svgGroup).append(suitText);
+          $(suitText).append(suitVisual[this.suit]);
+          $(svgGroup).addClass(color[this.color]);
+        }
       });
     }
   }
@@ -200,13 +115,14 @@ function showCards(cards) {
 }
 
 function start() {
+  $('svg').empty();
   $('span').text('');
   $('.buttons').removeClass('buttons-start');
   deck = createDeck();
   diller = [];
   player = [];
-  player.push(randomCard(deck), randomCard(deck));
-  diller.push(randomCard(deck), randomCard(deck));
+  addCard();
+  addCard();
   $('#player-cards').text(showCards(player));
   if (sumOfCards(player) == 21) {
     findWinner();
@@ -243,6 +159,10 @@ function addCard() {
   $('#player-cards').text(showCards(player));
   if (sumOfCards(player) >= 21) {
     end();
+  }
+  for (card of player) {
+    dx = 55 * (player.length - 1);
+    card.cardImage(dx);
   }
 }
 

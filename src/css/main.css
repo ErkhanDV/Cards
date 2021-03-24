@@ -12,30 +12,23 @@
 }
 #cardPicture {
   height: 80px;
-  width: 240px;
+  width: 610px;
 }
 .cardRect {
   fill: #dddddd;
 }
-.cardWorthBlack {
+.cardWorth {
   font-family: Verdana;
   font-size: 50px;
   text-anchor: middle;
-  fill: black;
 }
-.cardWorthRed {
-  font-family: Verdana;
-  font-size: 50px;
-  text-anchor: middle;
-  fill: red;
-}
-.cardSuitBlack {
+.cardSuit {
   font-family: Verdana;
   font-size: 15px;
+}
+.colorCardBlack {
   fill: black;
 }
-.cardSuitRed {
-  font-family: Verdana;
-  font-size: 15px;
+.colorCardRed {
   fill: red;
 }
