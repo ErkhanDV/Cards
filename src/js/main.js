@@ -3,6 +3,139 @@ var player = [];
 var deck = [];
 
 $( document ).ready(function(evt) {
+
+  let svgGroupOne = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  let firstRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  $(firstRect)
+  .addClass('cardRect')
+  .attr({
+    x: 5,
+    y: 5,
+    rx: 15,
+    ry: 15,
+    width: 50,
+    height: 70
+  })
+  let worthOne = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(worthOne)
+  .addClass('cardWorthBlack')
+  .attr({
+    x: 30,
+    y: 60
+  })
+  let suitOne = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(suitOne)
+  .addClass('cardSuitBlack')
+  .attr({
+    x: 40,
+    y: 20
+  })
+  $(svgGroupOne).append(firstRect);
+  $('#cardPicture').append(svgGroupOne);
+  $(svgGroupOne).append(worthOne);
+  $(worthOne).append('J');
+  $(svgGroupOne).append(suitOne);
+  $(suitOne).append('&spades;');
+
+  let svgGroupTwo = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  let secondRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  $(secondRect)
+  .addClass('cardRect')
+  .attr({
+    x: 60,
+    y: 5,
+    rx: 15,
+    ry: 15,
+    width: 50,
+    height: 70
+  })
+  let worthTwo = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(worthTwo)
+  .addClass('cardWorthBlack')
+  .attr({
+    x: 85,
+    y: 60
+  })
+  let suitTwo = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(suitTwo)
+  .addClass('cardSuitBlack')
+  .attr({
+    x: 95,
+    y: 20
+  })
+  $(svgGroupTwo).append(secondRect);
+  $('#cardPicture').append(svgGroupTwo);
+  $(svgGroupTwo).append(worthTwo);
+  $(worthTwo).append('Q');
+  $(svgGroupTwo).append(suitTwo);
+  $(suitTwo).append('&clubs;');
+
+  let svgGroupThree = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  let thirdRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  $(thirdRect)
+  .addClass('cardRect')
+  .attr({
+    x: 115,
+    y: 5,
+    rx: 15,
+    ry: 15,
+    width: 50,
+    height: 70
+  })
+  let worthThree = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(worthThree)
+  .addClass('cardWorthRed')
+  .attr({
+    x: 140,
+    y: 60
+  })
+  let suitThree = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(suitThree)
+  .addClass('cardSuitRed')
+  .attr({
+    x: 150,
+    y: 20
+  })
+  $(svgGroupThree).append(thirdRect);
+  $('#cardPicture').append(svgGroupThree);
+  $(svgGroupThree).append(worthThree);
+  $(worthThree).append('K');
+  $(svgGroupThree).append(suitThree);
+  $(suitThree).append('&hearts;');
+
+  let svgGroupFour = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  let fourRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  $(fourRect)
+  .addClass('cardRect')
+  .attr({
+    x: 170,
+    y: 5,
+    rx: 15,
+    ry: 15,
+    width: 50,
+    height: 70
+  })
+  let worthFour = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(worthFour)
+  .addClass('cardWorthRed')
+  .attr({
+    x: 195,
+    y: 60
+  })
+  let suitFour = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  $(suitFour)
+  .addClass('cardSuitRed')
+  .attr({
+    x: 205,
+    y: 20
+  })
+  $(svgGroupFour).append(fourRect);
+  $('#cardPicture').append(svgGroupFour);
+  $(svgGroupFour).append(worthFour);
+  $(worthFour).append('A');
+  $(svgGroupFour).append(suitFour);
+  $(suitFour).append('&diams;');
+
   start();
 
   $('#get-card').click(function(evt) {
@@ -17,11 +150,6 @@ $( document ).ready(function(evt) {
     start();
   });
 
-  const svgContainer = $(document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
-  svgContainer.attr ({
-    viewBox: 0 0 240 80;
-    id: cardPicture;
-  })
 });
 
 function createDeck() {

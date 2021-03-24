@@ -17,12 +17,19 @@
 .cardRect {
   fill: #dddddd;
 }
-.cardWorth {
+.cardWorthBlack {
   font-family: Verdana;
   font-size: 50px;
   text-anchor: middle;
+  fill: black;
 }
-.cardSuit {
+.cardWorthRed {
+  font-family: Verdana;
+  font-size: 50px;
+  text-anchor: middle;
+  fill: red;
+}
+.cardSuitBlack {
   font-family: Verdana;
   font-size: 15px;
   fill: black;
