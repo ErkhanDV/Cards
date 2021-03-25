@@ -43,14 +43,14 @@ function createDeck() {
         suit: suit[i],
         value: value[j],
         color: cardColor[i], 
-        cardImage(dx) {
+        cardImage(dx, dy, visibility = true) {
           let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
           let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           $(rect)
           .addClass('cardRect')
           .attr({
             x: 5 + dx,
-            y: 5,
+            y: 5 + dy,
             rx: 15,
             ry: 15,
             width: 50,
@@ -61,14 +61,14 @@ function createDeck() {
           .addClass('cardWorth')
           .attr({
             x: 30 + dx,
-            y: 60
+            y: 60 + dy
           })
           let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           $(suitText)
           .addClass('cardSuit')
           .attr({
             x: 40 + dx,
-            y: 20
+            y: 20 + dy
           })
           $(svgGroup).append(rect);
           $('#cardPicture').append(svgGroup);
@@ -77,6 +77,9 @@ function createDeck() {
           $(svgGroup).append(suitText);
           $(suitText).append(suitVisual[this.suit]);
           $(svgGroup).addClass(color[this.color]);
+          if (visibility == false) {
+            $(svgGroup).addClass('shortDiller');
+          }
         },
         showCard() {
           return `${this.worth}${this.suit}`;
@@ -142,11 +145,17 @@ function findWinner() {
   }
   $('#diller-cards').text(showCards(diller));
   $('.buttons').addClass('buttons-start');
+  $('g').removeClass('shortDiller');
 }
 
 function addDillerCard(untillimit=false) {
   if (sumOfCards(diller) >= 17) return;
-  diller.push(randomCard(deck));
+  let card = randomCard(deck);
+  diller.push(card);
+  dx = 55 * (diller.length - 1);
+  dy = 80;
+  visibility = false;
+  card.cardImage(dx, dy, visibility);
   if (untillimit) {
     addDillerCard(true);
   }
@@ -157,7 +166,9 @@ function addCard() {
   let card = randomCard(deck);
   player.push(card);
   dx = 55 * (player.length - 1);
-  card.cardImage(dx);
+  dy = 0;
+  visibility = true;
+  card.cardImage(dx, dy, visibility);
   $('#player-cards').text(showCards(player));
   if (sumOfCards(player) >= 21) {
     end();

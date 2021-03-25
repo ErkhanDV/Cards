@@ -11,7 +11,7 @@
   display: block;
 }
 #cardPicture {
-  height: 80px;
+  height: 155px;
   width: 610px;
 }
 .cardRect {
@@ -31,4 +31,7 @@
 }
 .colorCardRed {
   fill: red;
+}
+.shortDiller {
+  fill: #dddddd;
 }
