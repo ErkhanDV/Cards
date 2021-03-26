@@ -10,6 +10,7 @@
 .buttons.buttons-start > .button-start {
   display: block;
 }
+
 #cardPicture {
   height: 155px;
   width: 610px;
@@ -32,6 +33,12 @@
 .colorCardRed {
   fill: red;
 }
-.shortDiller {
+
+.shortImage {
   fill: #dddddd;
+  stroke: red;
+  stroke-width: 1;
+}
+.redSuit {
+  fill: red;
 }

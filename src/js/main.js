@@ -42,8 +42,8 @@ function createDeck() {
         worth: worth[j],
         suit: suit[i],
         value: value[j],
-        color: cardColor[i], 
-        cardImage(dx, dy, visibility = true) {
+        color: cardColor[i],
+        cardImage(dx, dy) {
           let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
           let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           $(rect)
@@ -77,12 +77,67 @@ function createDeck() {
           $(svgGroup).append(suitText);
           $(suitText).append(suitVisual[this.suit]);
           $(svgGroup).addClass(color[this.color]);
-          if (visibility == false) {
-            $(svgGroup).addClass('shortDiller');
-          }
         },
         showCard() {
           return `${this.worth}${this.suit}`;
+        },
+        cardShort(dx) {
+          let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          $(rect)
+          .addClass('cardRect')
+          .attr({
+            x: 5 + dx,
+            y: 5,
+            rx: 15,
+            ry: 15,
+            width: 50,
+            height: 70
+          })
+          let path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          $(path)
+          .addClass('shortImage')
+          .attr({
+            d: `M ${30+dx} 19 L ${50+dx} 40 L ${30+dx} 61 L ${10+dx} 40 z`
+          })
+          let spadesText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          $(spadesText)
+          .attr({
+            x: 40 + dx,
+            y: 20
+          })
+          let heartsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          $(heartsText)
+          .addClass('redSuit')
+          .attr({
+            x: 40 + dx,
+            y: 70
+          })
+          let diamsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          $(diamsText)
+          .addClass('redSuit')
+          .attr({
+            x: 13 + dx,
+            y: 20,
+          })
+          let clubsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          $(clubsText)
+          .attr({
+            x: 13 + dx,
+            y: 70
+          })
+          $(svgGroup).append(rect);
+          $(svgGroup).append(path);
+          $(svgGroup).append(spadesText);
+          $(spadesText).append('&spades;');
+          $(svgGroup).append(heartsText);
+          $(heartsText).append('&hearts;');
+          $(svgGroup).append(diamsText);
+          $(diamsText).append('&diams;');
+          $(svgGroup).append(clubsText);
+          $(clubsText).append('&clubs;');
+          $('#cardPicture').append(svgGroup);
+          $(svgGroup).addClass('short');
         }
       });
     }
@@ -145,17 +200,21 @@ function findWinner() {
   }
   $('#diller-cards').text(showCards(diller));
   $('.buttons').addClass('buttons-start');
-  $('g').removeClass('shortDiller');
+  $('.short').remove();
+  let dx = 0;
+  for (let card of diller) {
+    let dy = 0;
+    card.cardImage(dx, dy);
+    dx += 55;
+  }
 }
 
 function addDillerCard(untillimit=false) {
   if (sumOfCards(diller) >= 17) return;
   let card = randomCard(deck);
   diller.push(card);
-  dx = 55 * (diller.length - 1);
-  dy = 80;
-  visibility = false;
-  card.cardImage(dx, dy, visibility);
+  let dx = 55 * (diller.length -1);
+  card.cardShort(dx);
   if (untillimit) {
     addDillerCard(true);
   }
@@ -165,10 +224,9 @@ function addCard() {
   addDillerCard();
   let card = randomCard(deck);
   player.push(card);
-  dx = 55 * (player.length - 1);
-  dy = 0;
-  visibility = true;
-  card.cardImage(dx, dy, visibility);
+  let dy = 80;
+  let dx = 55 * (player.length - 1);
+  card.cardImage(dx, dy);
   $('#player-cards').text(showCards(player));
   if (sumOfCards(player) >= 21) {
     end();
