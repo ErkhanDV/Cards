@@ -10,25 +10,18 @@
 
 <body>
 
-  <div>
-    Результат: 
-    <span id='result'></span>
-  </div>
-  <div>
-    Карты дилера: 
-    <span id='diller-cards'></span>
-  </div>
-  <div>
-    Карты игрока: 
-    <span id='player-cards'></span>
-  </div>
   <div class='buttons'>
     <button id='get-card' class='button-regular'>Взять карту</button>
     <button id='end-round' class='button-regular'>Завершить</button>
     <button id='new-round' class='button-start'>Новый раунд</button>
   </div>
 
-  <svg id='cardPicture' viewBox='0 0 610 155' xmlns='http://www.w3.org/2000/svg'>
+  <svg id='cardPicture' viewBox='0 0 610 200' xmlns='http://www.w3.org/2000/svg'>
+    <g id='shortCards' xmlns='http://www.w3.org/2000/svg'></g>
+    <g id='playersCards' xmlns='http://www.w3.org/2000/svg'></g>
+    <text id='dillerResult' x='15' y='45' class='finalPoints' xmlns='http://www.w3.org/2000/svg'></text>
+    <text id='playerResult' x='15' y='165' class='finalPoints' xmlns='http://www.w3.org/2000/svg'></text>
+    <text id='winerText' x='55' y='110' class='finalText' xmlns='http://www.w3.org/2000/svg'></text>
   </svg>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"

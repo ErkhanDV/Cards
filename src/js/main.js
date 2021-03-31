@@ -44,13 +44,12 @@ function createDeck() {
         value: value[j],
         color: cardColor[i],
         cardImage(dx, dy) {
-          let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
           let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           $(rect)
           .addClass('cardRect')
           .attr({
-            x: 5 + dx,
-            y: 5 + dy,
+            x: 45 + dx,
+            y: 45 + dy,
             rx: 15,
             ry: 15,
             width: 50,
@@ -60,84 +59,77 @@ function createDeck() {
           $(worthText)
           .addClass('cardWorth')
           .attr({
-            x: 30 + dx,
-            y: 60 + dy
+            x: 70 + dx,
+            y: 100 + dy
           })
           let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           $(suitText)
           .addClass('cardSuit')
           .attr({
-            x: 40 + dx,
-            y: 20 + dy
+            x: 80 + dx,
+            y: 60 + dy
           })
-          $(svgGroup).append(rect);
-          $('#cardPicture').append(svgGroup);
-          $(svgGroup).append(worthText);
+          $('#playersCards').append(rect);
+          $('#playersCards').append(worthText);
           $(worthText).append(this.worth);
-          $(svgGroup).append(suitText);
+          $('#playersCards').append(suitText);
           $(suitText).append(suitVisual[this.suit]);
-          $(svgGroup).addClass(color[this.color]);
+          $(worthText).addClass(color[this.color]);
+          $(suitText).addClass(color[this.color]);
         },
         showCard() {
           return `${this.worth}${this.suit}`;
         },
         cardShort(dx) {
-          let svgGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
           let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           $(rect)
           .addClass('cardRect')
           .attr({
-            x: 5 + dx,
+            x: 45 + dx,
             y: 5,
             rx: 15,
             ry: 15,
             width: 50,
             height: 70
           })
-          let path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          $(path)
-          .addClass('shortImage')
-          .attr({
-            d: `M ${30+dx} 19 L ${50+dx} 40 L ${30+dx} 61 L ${10+dx} 40 z`
-          })
           let spadesText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           $(spadesText)
+          .addClass('blackSuit')
           .attr({
-            x: 40 + dx,
-            y: 20
+            x: 82 + dx,
+            y: 27
           })
           let heartsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           $(heartsText)
           .addClass('redSuit')
           .attr({
-            x: 40 + dx,
-            y: 70
+            x: 82 + dx,
+            y: 65
           })
           let diamsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           $(diamsText)
           .addClass('redSuit')
           .attr({
-            x: 13 + dx,
-            y: 20,
+            x: 57 + dx,
+            y: 27,
           })
           let clubsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           $(clubsText)
+          .addClass('blackSuit')
           .attr({
-            x: 13 + dx,
-            y: 70
+            x: 57 + dx,
+            y: 65
           })
-          $(svgGroup).append(rect);
-          $(svgGroup).append(path);
-          $(svgGroup).append(spadesText);
+          $('#shortCards').append(rect);
+          $('#shortCards').append(spadesText);
           $(spadesText).append('&spades;');
-          $(svgGroup).append(heartsText);
+          $('#shortCards').append(heartsText);
           $(heartsText).append('&hearts;');
-          $(svgGroup).append(diamsText);
+          $('#shortCards').append(diamsText);
           $(diamsText).append('&diams;');
-          $(svgGroup).append(clubsText);
+          $('#shortCards').append(clubsText);
           $(clubsText).append('&clubs;');
-          $('#cardPicture').append(svgGroup);
-          $(svgGroup).addClass('short');
+          $('#shortCards').addClass('short');
         }
       });
     }
@@ -158,9 +150,12 @@ function sumOfCards(cards) {
     if (card.worth === 'A') {
       acesCount += 1;
     }
+  }
+  for (let i = 1; i <= acesCount; i++) {
     if (sum > 21) {
-      sum -= acesCount * 10;
-      acesCount = 0;
+      sum -= 10;
+    } else {
+      break;
     }
   }
   return sum;
@@ -172,38 +167,39 @@ function showCards(cards) {
 }
 
 function start() {
-  $('svg').empty();
-  $('span').text('');
+  $('g').empty();
+  $('text').empty();
   $('.buttons').removeClass('buttons-start');
   deck = createDeck();
   diller = [];
   player = [];
   addCard();
   addCard();
-  $('#player-cards').text(showCards(player));
-  if (sumOfCards(player) == 21) {
-    findWinner();
-  }
 }
 
 function findWinner() {
   let sumOfPlayer = sumOfCards(player);
   let sumOfDiller = sumOfCards(diller);
   if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
-    $('#result').text('Tied!');
+    $('#winerText').append('Tied!');
+    console.log('Tied!');
   } else if (sumOfPlayer > 21) {
-    $('#result').text('Diller WIN!');
+    $('#winerText').append('Diler WIN!');
+    console.log('Diler Win!');
   } else if (sumOfDiller > 21 || sumOfPlayer > sumOfDiller) {
-    $('#result').text('Player WIN!');
+    $('#winerText').append('Player WIN!');
+    console.log('Player Win!');
   } else {
-    $('#result').text('Diller WIN!');
+    $('#winerText').append('Diler WIN!');
+    console.log('Diler Win!');
   }
-  $('#diller-cards').text(showCards(diller));
+  $('#dillerResult').append(sumOfCards(diller));
+  console.log(`Diler: ${showCards(diller)}`);
   $('.buttons').addClass('buttons-start');
-  $('.short').remove();
+  $('.short').empty();
   let dx = 0;
   for (let card of diller) {
-    let dy = 0;
+    let dy = -40;
     card.cardImage(dx, dy);
     dx += 55;
   }
@@ -227,10 +223,12 @@ function addCard() {
   let dy = 80;
   let dx = 55 * (player.length - 1);
   card.cardImage(dx, dy);
-  $('#player-cards').text(showCards(player));
+  $('#playerResult').empty();
+  $('#playerResult').append(sumOfCards(player));
   if (sumOfCards(player) >= 21) {
     end();
   }
+  console.log(`Player: ${showCards(player)}`);
 }
 
 function end() {

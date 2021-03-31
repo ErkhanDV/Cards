@@ -12,7 +12,7 @@
 }
 
 #cardPicture {
-  height: 155px;
+  height: 200px;
   width: 610px;
 }
 .cardRect {
@@ -24,7 +24,6 @@
   text-anchor: middle;
 }
 .cardSuit {
-  font-family: Verdana;
   font-size: 15px;
 }
 .colorCardBlack {
@@ -41,4 +40,21 @@
 }
 .redSuit {
   fill: red;
+  font-size: 23px;
+  text-anchor: middle;
+}
+.blackSuit {
+  fill: black;
+  font-size: 23px;
+  text-anchor: middle; 
+}
+
+.finalText {
+  font-family: Verdana;
+  font-size: 30px;
+  fill: blue;
+}
+.finalPoints {
+  font-family: Verdana;
+  font-size: 20px;
 }
