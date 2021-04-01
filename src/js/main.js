@@ -11,6 +11,29 @@ var color = {
   dark: 'colorCardBlack',
   red: 'colorCardRed'
 };
+const WORTHS = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
+const SUITS = [ 'c', 'd', 's', 'h'];
+const VALUES = {
+  '2': 2,
+  '3': 3,
+  '4': 4,
+  '5': 5,
+  '6': 6,
+  '7': 7,
+  '8': 8,
+  '9': 9,
+  'T': 10,
+  'J': 10,
+  'Q': 10,
+  'K': 10,
+  'A': 11 
+};
+const COLORS = {
+  'c': 'dark',
+  'd': 'red',
+  's': 'dark',
+  'h': 'red'
+};
 
 $( document ).ready(function(evt) {
 
@@ -31,18 +54,14 @@ $( document ).ready(function(evt) {
 });
 
 function createDeck() {
-  let deck = [];
-  let worth = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
-  let suit = [ 'c', 'd', 's', 'h'];
-  let value = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ];
-  let cardColor = [ 'dark', 'red', 'dark', 'red' ];
-  for (let i = 0; i < suit.length; i++) {
-    for (let j = 0; j < worth.length; j++) {
+  deck = [];
+  for (let i = 0; i < SUITS.length; i++) {
+    for (let j = 0; j < WORTHS.length; j++) {
       deck.push({
-        worth: worth[j],
-        suit: suit[i],
-        value: value[j],
-        color: cardColor[i],
+        worth: WORTHS[j],
+        suit: SUITS[i],
+        value: VALUES[WORTHS[j]],
+        color: COLORS[SUITS[i]],
         cardImage(dx, dy) {
           let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           $(rect)
@@ -152,11 +171,8 @@ function sumOfCards(cards) {
     }
   }
   for (let i = 1; i <= acesCount; i++) {
-    if (sum > 21) {
-      sum -= 10;
-    } else {
-      break;
-    }
+    if (sum <= 21) break;
+    sum -= 10;
   }
   return sum;
 }
