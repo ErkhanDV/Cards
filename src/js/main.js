@@ -1,3 +1,102 @@
+class Card {
+  constructor(worth, suit) {
+    this.worth = worth;
+    this.suit = suit;
+    this.value = VALUES[worth];
+    this.color = COLORS[suit];
+  }
+
+  cardImage(dx, dy) {
+    let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    $(rect)
+    .addClass('cardRect')
+    .attr({
+      x: 45 + dx,
+      y: 45 + dy,
+      rx: 15,
+      ry: 15,
+      width: 50,
+      height: 70
+    })
+    let worthText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    $(worthText)
+    .addClass('cardWorth')
+    .attr({
+      x: 70 + dx,
+      y: 100 + dy
+    })
+    let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    $(suitText)
+    .addClass('cardSuit')
+    .attr({
+      x: 80 + dx,
+      y: 60 + dy
+    })
+    $('#playersCards').append(rect);
+    $('#playersCards').append(worthText);
+    $(worthText).append(this.worth);
+    $('#playersCards').append(suitText);
+    $(suitText).append(suitVisual[this.suit]);
+    $(worthText).addClass(color[this.color]);
+    $(suitText).addClass(color[this.color]);
+  }
+
+  showCard() {
+    return `${this.worth}${this.suit}`;
+  }
+
+  cardShort(dx) {
+    let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    $(rect)
+    .addClass('cardRect')
+    .attr({
+      x: 45 + dx,
+      y: 5,
+      rx: 15,
+      ry: 15,
+      width: 50,
+      height: 70
+    })
+    let spadesText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    $(spadesText)
+    .addClass('blackSuit')
+    .attr({
+      x: 82 + dx,
+      y: 27
+    })
+    let heartsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    $(heartsText)
+    .addClass('redSuit')
+    .attr({
+      x: 82 + dx,
+      y: 65
+    })
+    let diamsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    $(diamsText)
+    .addClass('redSuit')
+    .attr({
+      x: 57 + dx,
+      y: 27,
+    })
+    let clubsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    $(clubsText)
+    .addClass('blackSuit')
+    .attr({
+      x: 57 + dx,
+      y: 65
+    })
+    $('#shortCards').append(rect);
+    $('#shortCards').append(spadesText);
+    $(spadesText).append('&spades;');
+    $('#shortCards').append(heartsText);
+    $(heartsText).append('&hearts;');
+    $('#shortCards').append(diamsText);
+    $(diamsText).append('&diams;');
+    $('#shortCards').append(clubsText);
+    $(clubsText).append('&clubs;');
+    $('#shortCards').addClass('short');
+  }
+}
 var diller = [];
 var player = [];
 var deck = [];
@@ -57,100 +156,7 @@ function createDeck() {
   deck = [];
   for (let i = 0; i < SUITS.length; i++) {
     for (let j = 0; j < WORTHS.length; j++) {
-      deck.push({
-        worth: WORTHS[j],
-        suit: SUITS[i],
-        value: VALUES[WORTHS[j]],
-        color: COLORS[SUITS[i]],
-        cardImage(dx, dy) {
-          let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          $(rect)
-          .addClass('cardRect')
-          .attr({
-            x: 45 + dx,
-            y: 45 + dy,
-            rx: 15,
-            ry: 15,
-            width: 50,
-            height: 70
-          })
-          let worthText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          $(worthText)
-          .addClass('cardWorth')
-          .attr({
-            x: 70 + dx,
-            y: 100 + dy
-          })
-          let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          $(suitText)
-          .addClass('cardSuit')
-          .attr({
-            x: 80 + dx,
-            y: 60 + dy
-          })
-          $('#playersCards').append(rect);
-          $('#playersCards').append(worthText);
-          $(worthText).append(this.worth);
-          $('#playersCards').append(suitText);
-          $(suitText).append(suitVisual[this.suit]);
-          $(worthText).addClass(color[this.color]);
-          $(suitText).addClass(color[this.color]);
-        },
-        showCard() {
-          return `${this.worth}${this.suit}`;
-        },
-        cardShort(dx) {
-          let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          $(rect)
-          .addClass('cardRect')
-          .attr({
-            x: 45 + dx,
-            y: 5,
-            rx: 15,
-            ry: 15,
-            width: 50,
-            height: 70
-          })
-          let spadesText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          $(spadesText)
-          .addClass('blackSuit')
-          .attr({
-            x: 82 + dx,
-            y: 27
-          })
-          let heartsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          $(heartsText)
-          .addClass('redSuit')
-          .attr({
-            x: 82 + dx,
-            y: 65
-          })
-          let diamsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          $(diamsText)
-          .addClass('redSuit')
-          .attr({
-            x: 57 + dx,
-            y: 27,
-          })
-          let clubsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          $(clubsText)
-          .addClass('blackSuit')
-          .attr({
-            x: 57 + dx,
-            y: 65
-          })
-          $('#shortCards').append(rect);
-          $('#shortCards').append(spadesText);
-          $(spadesText).append('&spades;');
-          $('#shortCards').append(heartsText);
-          $(heartsText).append('&hearts;');
-          $('#shortCards').append(diamsText);
-          $(diamsText).append('&diams;');
-          $('#shortCards').append(clubsText);
-          $(clubsText).append('&clubs;');
-          $('#shortCards').addClass('short');
-        }
-      });
+      deck.push(new Card(WORTHS[j], SUITS[i]));
     }
   }
   return deck;
