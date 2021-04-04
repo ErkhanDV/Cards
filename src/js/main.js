@@ -97,6 +97,8 @@ class Card {
     $('#shortCards').addClass('short');
   }
 }
+
+
 class Cards {
   constructor() {
     this.items = [];
@@ -135,6 +137,8 @@ class Cards {
     return this.items.length;
   }
 }
+
+
 var diller = new Cards;
 var player = new Cards;
 var deck = [];
