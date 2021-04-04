@@ -97,8 +97,46 @@ class Card {
     $('#shortCards').addClass('short');
   }
 }
-var diller = [];
-var player = [];
+class Cards {
+  constructor() {
+    this.items = [];
+  }
+
+  add(card) {
+    this.items.push(card);
+  }
+
+  clean() {
+    this.items = [];
+  }
+
+  sumOfCards() {
+    let sum = 0;
+    let acesCount = 0;
+    for (let card of this.items) {
+      sum += card.value;
+      if (card.worth === 'A') {
+        acesCount += 1;
+      }
+    }
+    for (let i = 1; i <= acesCount; i++) {
+      if (sum <= 21) break;
+      sum -= 10;
+    }
+    return sum;
+  }
+
+  showCards() {
+    let cardsOnHand = this.items.map(card => card.showCard()).join(' ');
+    return `${this.sumOfCards()} (${cardsOnHand})`;
+  }
+
+  count() {
+    return this.items.length;
+  }
+}
+var diller = new Cards;
+var player = new Cards;
 var deck = [];
 var suitVisual = {
   c: '&clubs;',
@@ -167,41 +205,20 @@ function randomCard(deck) {
   return deck.splice(index, 1)[0];
 }
 
-function sumOfCards(cards) {
-  let sum = 0;
-  let acesCount = 0;
-  for (let card of cards) {
-    sum += card.value;
-    if (card.worth === 'A') {
-      acesCount += 1;
-    }
-  }
-  for (let i = 1; i <= acesCount; i++) {
-    if (sum <= 21) break;
-    sum -= 10;
-  }
-  return sum;
-}
-
-function showCards(cards) {
-  let cardsOnHand = cards.map(card => card.showCard()).join(' ');
-  return `${sumOfCards(cards)} (${cardsOnHand})`;
-}
-
 function start() {
   $('g').empty();
   $('text').empty();
   $('.buttons').removeClass('buttons-start');
   deck = createDeck();
-  diller = [];
-  player = [];
+  diller.clean();
+  player.clean();
   addCard();
   addCard();
 }
 
 function findWinner() {
-  let sumOfPlayer = sumOfCards(player);
-  let sumOfDiller = sumOfCards(diller);
+  let sumOfPlayer = player.sumOfCards();
+  let sumOfDiller = diller.sumOfCards();
   if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
     $('#winerText').append('Tied!');
     console.log('Tied!');
@@ -215,12 +232,12 @@ function findWinner() {
     $('#winerText').append('Diler WIN!');
     console.log('Diler Win!');
   }
-  $('#dillerResult').append(sumOfCards(diller));
-  console.log(`Diler: ${showCards(diller)}`);
+  $('#dillerResult').append(diller.sumOfCards());
+  console.log(`Diler: ${diller.showCards()}`);
   $('.buttons').addClass('buttons-start');
   $('.short').empty();
   let dx = 0;
-  for (let card of diller) {
+  for (let card of diller.items) {
     let dy = -40;
     card.cardImage(dx, dy);
     dx += 55;
@@ -228,10 +245,10 @@ function findWinner() {
 }
 
 function addDillerCard(untillimit=false) {
-  if (sumOfCards(diller) >= 17) return;
+  if (diller.sumOfCards() >= 17) return;
   let card = randomCard(deck);
-  diller.push(card);
-  let dx = 55 * (diller.length -1);
+  diller.add(card);
+  let dx = 55 * (diller.count() -1);
   card.cardShort(dx);
   if (untillimit) {
     addDillerCard(true);
@@ -241,16 +258,16 @@ function addDillerCard(untillimit=false) {
 function addCard() {
   addDillerCard();
   let card = randomCard(deck);
-  player.push(card);
+  player.add(card);
   let dy = 80;
-  let dx = 55 * (player.length - 1);
+  let dx = 55 * (player.count() - 1);
   card.cardImage(dx, dy);
   $('#playerResult').empty();
-  $('#playerResult').append(sumOfCards(player));
-  if (sumOfCards(player) >= 21) {
+  $('#playerResult').append(player.sumOfCards());
+  if (player.sumOfCards() >= 21) {
     end();
   }
-  console.log(`Player: ${showCards(player)}`);
+  console.log(`Player: ${player.showCards()}`);
 }
 
 function end() {
