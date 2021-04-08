@@ -6,18 +6,22 @@ class Card {
     this.color = COLORS[suit];
   }
 
-  cardImage(dx, dy) {
+  cardRect(dx, dy) {
     let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     $(rect)
     .addClass('cardRect')
     .attr({
       x: 45 + dx,
-      y: 45 + dy,
+      y: 5 + dy,
       rx: 15,
       ry: 15,
       width: 50,
       height: 70
     })
+    return rect;
+  }
+
+  cardWorth(dx, dy) {
     let worthText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     $(worthText)
     .addClass('cardWorth')
@@ -25,76 +29,34 @@ class Card {
       x: 70 + dx,
       y: 100 + dy
     })
+    .append(this.worth)
+    .addClass(color[this.color]);
+    return worthText;
+  }
+
+  cardSuit(dx, dy, suit) {
     let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     $(suitText)
-    .addClass('cardSuit')
     .attr({
       x: 80 + dx,
       y: 60 + dy
     })
-    $('#playersCards').append(rect);
-    $('#playersCards').append(worthText);
-    $(worthText).append(this.worth);
-    $('#playersCards').append(suitText);
-    $(suitText).append(suitVisual[this.suit]);
-    $(worthText).addClass(color[this.color]);
-    $(suitText).addClass(color[this.color]);
+    .append(suit);
+    return suitText;
+  }
+
+  createPlayerGroup() {
+    let playerGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    return playerGroup;
+  }
+
+  createDillerGroup() {
+    let dillerGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    return dillerGroup;
   }
 
   showCard() {
     return `${this.worth}${this.suit}`;
-  }
-
-  cardShort(dx) {
-    let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    $(rect)
-    .addClass('cardRect')
-    .attr({
-      x: 45 + dx,
-      y: 5,
-      rx: 15,
-      ry: 15,
-      width: 50,
-      height: 70
-    })
-    let spadesText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    $(spadesText)
-    .addClass('blackSuit')
-    .attr({
-      x: 82 + dx,
-      y: 27
-    })
-    let heartsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    $(heartsText)
-    .addClass('redSuit')
-    .attr({
-      x: 82 + dx,
-      y: 65
-    })
-    let diamsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    $(diamsText)
-    .addClass('redSuit')
-    .attr({
-      x: 57 + dx,
-      y: 27,
-    })
-    let clubsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    $(clubsText)
-    .addClass('blackSuit')
-    .attr({
-      x: 57 + dx,
-      y: 65
-    })
-    $('#shortCards').append(rect);
-    $('#shortCards').append(spadesText);
-    $(spadesText).append('&spades;');
-    $('#shortCards').append(heartsText);
-    $(heartsText).append('&hearts;');
-    $('#shortCards').append(diamsText);
-    $(diamsText).append('&diams;');
-    $('#shortCards').append(clubsText);
-    $(clubsText).append('&clubs;');
-    $('#shortCards').addClass('short');
   }
 }
 
@@ -210,7 +172,7 @@ function randomCard(deck) {
 }
 
 function start() {
-  $('g').empty();
+  $('g').remove();
   $('text').empty();
   $('.buttons').removeClass('buttons-start');
   deck = createDeck();
@@ -239,21 +201,64 @@ function findWinner() {
   $('#dillerResult').append(diller.sumOfCards());
   console.log(`Diler: ${diller.showCards()}`);
   $('.buttons').addClass('buttons-start');
-  $('.short').empty();
+  $('.dilerCards').remove();
   let dx = 0;
   for (let card of diller.items) {
-    let dy = -40;
-    card.cardImage(dx, dy);
+    let dy = 0;
+    let dilGroup = card.createDillerGroup();
+    $('#cardPicture').append(dilGroup);
+    $(dilGroup).append(card.cardRect(dx, dy));
+    dy = -40;
+    $(dilGroup).append(card.cardWorth(dx, dy));
+    suit = suitVisual[card.suit];
+    let cardSuit = card.cardSuit(dx, dy, suit);
+    $(dilGroup).append(cardSuit);
+    $(cardSuit).addClass('cardSuit');
+    $(cardSuit).addClass(color[card.color]);
     dx += 55;
   }
+  $()
 }
 
 function addDillerCard(untillimit=false) {
   if (diller.sumOfCards() >= 17) return;
   let card = randomCard(deck);
   diller.add(card);
+  let dilGroup = card.createDillerGroup();
+  $(dilGroup).addClass('dilerCards');
+  $('#cardPicture').append(dilGroup);
   let dx = 55 * (diller.count() -1);
-  card.cardShort(dx);
+  let dy = 0;
+  $(dilGroup).append(card.cardRect(dx, dy));
+
+  suit = '&hearts;'
+  dx = 3 + 55 * (diller.count() -1);
+  dy = 0;
+  let heartSymbol = card.cardSuit(dx, dy, suit);
+  $(heartSymbol).addClass('redSuit');
+  $(dilGroup).append(heartSymbol);
+
+  suit = '&spades;';
+  dx = 3 + 55 * (diller.count() -1);
+  dy = -33;
+  let spadeSymbol = card.cardSuit(dx, dy, suit);
+  $(spadeSymbol).addClass('blackSuit');
+  $(dilGroup).append(spadeSymbol);
+
+  suit = '&diams;';
+  dx = -22 + 55 * (diller.count() -1);
+  dy = -33;
+  let diamSymbol = card.cardSuit(dx, dy, suit);
+  $(diamSymbol).addClass('redSuit');
+  $(dilGroup).append(diamSymbol);
+
+  suit = '&clubs;';
+  dx = -22 + 55 * (diller.count() -1);
+  dy = 0;
+  let clubSymbol = card.cardSuit(dx, dy, suit);
+  $(clubSymbol).addClass('blackSuit');
+  $(dilGroup).append(clubSymbol);
+
   if (untillimit) {
     addDillerCard(true);
   }
@@ -263,9 +268,18 @@ function addCard() {
   addDillerCard();
   let card = randomCard(deck);
   player.add(card);
-  let dy = 80;
+  let dy = 120;
   let dx = 55 * (player.count() - 1);
-  card.cardImage(dx, dy);
+  let plGroup = card.createPlayerGroup();
+  $('#cardPicture').append(plGroup);
+  $(plGroup).append(card.cardRect(dx, dy));
+  dy = 80;
+  $(plGroup).append(card.cardWorth(dx, dy));
+  suit = suitVisual[card.suit];
+  let cardSuit = card.cardSuit(dx, dy, suit);
+  $(plGroup).append(cardSuit);
+  $(cardSuit).addClass('cardSuit');
+  $(cardSuit).addClass(color[card.color]);
   $('#playerResult').empty();
   $('#playerResult').append(player.sumOfCards());
   if (player.sumOfCards() >= 21) {
