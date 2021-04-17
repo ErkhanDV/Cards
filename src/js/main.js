@@ -6,7 +6,7 @@ class Card {
     this.color = COLORS[suit];
   }
 
-  cardRect(dx, dy) {
+  createRect(dx, dy) {
     let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     $(rect)
     .addClass('cardRect')
@@ -21,7 +21,7 @@ class Card {
     return rect;
   }
 
-  cardWorth(dx, dy) {
+  createWorth(dx, dy) {
     let worthText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     $(worthText)
     .addClass('cardWorth')
@@ -34,7 +34,7 @@ class Card {
     return worthText;
   }
 
-  cardSuit(dx, dy, suit) {
+  createSuit(dx, dy, suit) {
     let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     $(suitText)
     .attr({
@@ -45,14 +45,63 @@ class Card {
     return suitText;
   }
 
-  createPlayerGroup() {
-    let playerGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    return playerGroup;
+  createFace(index, dy0) {
+    let card = player.items[index];
+    let dy = 120 + dy0;
+    let dx = 55 * index;
+    let group = card.createGroup();
+    $(group).append(card.createRect(dx, dy));
+    dy = 80 + dy0;
+    $(group).append(card.createWorth(dx, dy));
+    let suit = suitVisual[card.suit];
+    let cardSuit = card.createSuit(dx, dy, suit);
+    $(group).append(cardSuit);
+    $(cardSuit).addClass('cardSuit');
+    $(cardSuit).addClass(color[card.color]);
+    return group;
   }
 
-  createDillerGroup() {
-    let dillerGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    return dillerGroup;
+  createShirt(index) {
+    let card = diller.items[index];
+    let group = card.createGroup();
+    $('#dillerCards').append(group);
+    let dx = 55 * index;
+    let dy = 0;
+    $(group).append(card.createRect(dx, dy));
+
+    let suit = '&hearts;';
+    dx = 3 + 55 * index;
+    dy = 3;
+    let heartSymbol = card.createSuit(dx, dy, suit);
+    $(heartSymbol).addClass('redSuit');
+    $(group).append(heartSymbol);
+
+    suit = '&spades;';
+    dx = 3 + 55 * index;
+    dy = -33;
+    let spadeSymbol = card.createSuit(dx, dy, suit);
+    $(spadeSymbol).addClass('blackSuit');
+    $(group).append(spadeSymbol);
+
+    suit = '&diams;';
+    dx = -22 + 55 * index;
+    dy = -33;
+    let diamSymbol = card.createSuit(dx, dy, suit);
+    $(diamSymbol).addClass('redSuit');
+    $(group).append(diamSymbol);
+
+    suit = '&clubs;';
+    dx = -22 + 55 * index;
+    dy = 3;
+    let clubSymbol = card.createSuit(dx, dy, suit);
+    $(clubSymbol).addClass('blackSuit');
+    $(group).append(clubSymbol);
+    return group;
+  }
+
+  createGroup() {
+    let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    return group;
   }
 
   showCard() {
@@ -172,7 +221,7 @@ function randomCard(deck) {
 }
 
 function start() {
-  $('g').remove();
+  $('g').empty();
   $('text').empty();
   $('.buttons').removeClass('buttons-start');
   deck = createDeck();
@@ -201,64 +250,23 @@ function findWinner() {
   $('#dillerResult').append(diller.sumOfCards());
   console.log(`Diler: ${diller.showCards()}`);
   $('.buttons').addClass('buttons-start');
-  $('.dilerCards').remove();
+  $('#dillerCards').empty();
   let dx = 0;
+  let dy0 = -120;
+  let index = 0;
   for (let card of diller.items) {
-    let dy = 0;
-    let dilGroup = card.createDillerGroup();
-    $('#cardPicture').append(dilGroup);
-    $(dilGroup).append(card.cardRect(dx, dy));
-    dy = -40;
-    $(dilGroup).append(card.cardWorth(dx, dy));
-    suit = suitVisual[card.suit];
-    let cardSuit = card.cardSuit(dx, dy, suit);
-    $(dilGroup).append(cardSuit);
-    $(cardSuit).addClass('cardSuit');
-    $(cardSuit).addClass(color[card.color]);
-    dx += 55;
+    $('#dillerCards').append(card.createFace(index, dy0));
+    index += 1;
   }
-  $()
 }
 
 function addDillerCard(untillimit=false) {
   if (diller.sumOfCards() >= 17) return;
-  let card = randomCard(deck);
+  let card = randomCard(deck)
   diller.add(card);
-  let dilGroup = card.createDillerGroup();
-  $(dilGroup).addClass('dilerCards');
-  $('#cardPicture').append(dilGroup);
-  let dx = 55 * (diller.count() -1);
-  let dy = 0;
-  $(dilGroup).append(card.cardRect(dx, dy));
-
-  suit = '&hearts;'
-  dx = 3 + 55 * (diller.count() -1);
-  dy = 0;
-  let heartSymbol = card.cardSuit(dx, dy, suit);
-  $(heartSymbol).addClass('redSuit');
-  $(dilGroup).append(heartSymbol);
-
-  suit = '&spades;';
-  dx = 3 + 55 * (diller.count() -1);
-  dy = -33;
-  let spadeSymbol = card.cardSuit(dx, dy, suit);
-  $(spadeSymbol).addClass('blackSuit');
-  $(dilGroup).append(spadeSymbol);
-
-  suit = '&diams;';
-  dx = -22 + 55 * (diller.count() -1);
-  dy = -33;
-  let diamSymbol = card.cardSuit(dx, dy, suit);
-  $(diamSymbol).addClass('redSuit');
-  $(dilGroup).append(diamSymbol);
-
-  suit = '&clubs;';
-  dx = -22 + 55 * (diller.count() -1);
-  dy = 0;
-  let clubSymbol = card.cardSuit(dx, dy, suit);
-  $(clubSymbol).addClass('blackSuit');
-  $(dilGroup).append(clubSymbol);
-
+  let index = diller.count() - 1;
+  let dy0 = 0;
+  card.createShirt(index, dy0);
   if (untillimit) {
     addDillerCard(true);
   }
@@ -268,18 +276,9 @@ function addCard() {
   addDillerCard();
   let card = randomCard(deck);
   player.add(card);
-  let dy = 120;
-  let dx = 55 * (player.count() - 1);
-  let plGroup = card.createPlayerGroup();
-  $('#cardPicture').append(plGroup);
-  $(plGroup).append(card.cardRect(dx, dy));
-  dy = 80;
-  $(plGroup).append(card.cardWorth(dx, dy));
-  suit = suitVisual[card.suit];
-  let cardSuit = card.cardSuit(dx, dy, suit);
-  $(plGroup).append(cardSuit);
-  $(cardSuit).addClass('cardSuit');
-  $(cardSuit).addClass(color[card.color]);
+  index = player.count() - 1;
+  dy0 = 0;
+  $('#playerCards').append(card.createFace(index, dy0));
   $('#playerResult').empty();
   $('#playerResult').append(player.sumOfCards());
   if (player.sumOfCards() >= 21) {
