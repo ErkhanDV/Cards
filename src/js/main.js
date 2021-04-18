@@ -3,7 +3,7 @@ class Card {
     this.worth = worth;
     this.suit = suit;
     this.value = VALUES[worth];
-    this.color = COLORS[suit];
+    this.color = COLORS_BY_SUITS[suit];
   }
 
   createRect(dx, dy) {
@@ -27,10 +27,10 @@ class Card {
     .addClass('cardWorth')
     .attr({
       x: 70 + dx,
-      y: 100 + dy
+      y: 60 + dy
     })
     .append(this.worth)
-    .addClass(color[this.color]);
+    .addClass(COLORS_CLASSES[this.color]);
     return worthText;
   }
 
@@ -39,69 +39,71 @@ class Card {
     $(suitText)
     .attr({
       x: 80 + dx,
-      y: 60 + dy
+      y: 20 + dy
     })
     .append(suit);
     return suitText;
   }
 
-  createFace(index, dy0, whoes) {
-    let card = whoes.items[index];
-    let dy = 120 + dy0;
+  createFace(index, dy0) {
     let dx = 55 * index;
-    let group = card.createGroup();
-    $(group).append(card.createRect(dx, dy));
-    dy = 80 + dy0;
-    $(group).append(card.createWorth(dx, dy));
-    let suit = suitVisual[card.suit];
-    let cardSuit = card.createSuit(dx, dy, suit);
+    let dy = dy0;
+    let group = this.createGroup();
+
+    $(group).append(this.createRect(dx, dy));
+
+    $(group).append(this.createWorth(dx, dy));
+
+    let suit = SUITS_DISPLAY[this.suit];
+    let cardSuit = this.createSuit(dx, dy, suit);
+    $(cardSuit)
+    .addClass('cardSuit')
+    .addClass(COLORS_CLASSES[this.color]);
     $(group).append(cardSuit);
-    $(cardSuit).addClass('cardSuit');
-    $(cardSuit).addClass(color[card.color]);
+
     return group;
   }
 
-  createShirt(index) {
-    let card = diller.items[index];
-    let group = card.createGroup();
-    $('#dillerCards').append(group);
+  createShirt(index, dy0) {
     let dx = 55 * index;
-    let dy = 0;
-    $(group).append(card.createRect(dx, dy));
+    let dy = dy0;
+    let group = this.createGroup();
 
-    let suit = '&hearts;';
+    $(group).append(this.createRect(dx, dy));
+
+    let suit = SUITS_DISPLAY.h;
     dx = 3 + 55 * index;
-    dy = 3;
-    let heartSymbol = card.createSuit(dx, dy, suit);
+    dy = dy0 + 46;
+    let heartSymbol = this.createSuit(dx, dy, suit);
     $(heartSymbol).addClass('redSuit');
     $(group).append(heartSymbol);
 
-    suit = '&spades;';
+    suit = SUITS_DISPLAY.s;
     dx = 3 + 55 * index;
-    dy = -33;
-    let spadeSymbol = card.createSuit(dx, dy, suit);
+    dy = dy0 + 7;
+    let spadeSymbol = this.createSuit(dx, dy, suit);
     $(spadeSymbol).addClass('blackSuit');
     $(group).append(spadeSymbol);
 
-    suit = '&diams;';
+    suit = SUITS_DISPLAY.d;
     dx = -22 + 55 * index;
-    dy = -33;
-    let diamSymbol = card.createSuit(dx, dy, suit);
+    dy = dy0 + 7;
+    let diamSymbol = this.createSuit(dx, dy, suit);
     $(diamSymbol).addClass('redSuit');
     $(group).append(diamSymbol);
 
-    suit = '&clubs;';
+    suit = SUITS_DISPLAY.c;
     dx = -22 + 55 * index;
-    dy = 3;
-    let clubSymbol = card.createSuit(dx, dy, suit);
+    dy = dy0 + 46;
+    let clubSymbol = this.createSuit(dx, dy, suit);
     $(clubSymbol).addClass('blackSuit');
     $(group).append(clubSymbol);
+
     return group;
   }
 
   createGroup() {
-    let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    return group;
+    return document.createElementNS('http://www.w3.org/2000/svg', 'g');
   }
 
   showCard() {
@@ -150,21 +152,14 @@ class Cards {
 }
 
 
-var diller = new Cards;
-var player = new Cards;
-var deck = [];
-var suitVisual = {
+const WORTHS = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
+const SUITS = [ 'c', 'd', 's', 'h' ];
+const SUITS_DISPLAY = {
   c: '&clubs;',
   d: '&diams;',
   s: '&spades;',
   h: '&hearts;'
 };
-var color = {
-  dark: 'colorCardBlack',
-  red: 'colorCardRed'
-};
-const WORTHS = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
-const SUITS = [ 'c', 'd', 's', 'h'];
 const VALUES = {
   '2': 2,
   '3': 3,
@@ -180,30 +175,24 @@ const VALUES = {
   'K': 10,
   'A': 11 
 };
-const COLORS = {
-  'c': 'dark',
-  'd': 'red',
-  's': 'dark',
-  'h': 'red'
+const RED_COLOR = 'red';
+const BLACK_COLOR = 'black';
+const COLORS_BY_SUITS = {
+  c: BLACK_COLOR,
+  d: RED_COLOR,
+  s: BLACK_COLOR,
+  h: RED_COLOR
+};
+const COLORS_CLASSES = {
+  [BLACK_COLOR]: 'color-card-black',
+  [RED_COLOR]: 'color-card-red'
 };
 
-$( document ).ready(function(evt) {
 
-  start();
+var diller = new Cards;
+var player = new Cards;
+var deck = [];
 
-  $('#get-card').click(function(evt) {
-    addCard();
-  });
-
-  $('#end-round').click(function(evt) {
-    end();
-  });
-
-  $('#new-round').click(function(evt) {
-    start();
-  });
-
-});
 
 function createDeck() {
   deck = [];
@@ -215,10 +204,12 @@ function createDeck() {
   return deck;
 }
 
+
 function randomCard(deck) {
   let index = Math.floor(Math.random() * deck.length);
   return deck.splice(index, 1)[0];
 }
+
 
 function start() {
   $('g').empty();
@@ -230,6 +221,7 @@ function start() {
   addCard();
   addCard();
 }
+
 
 function findWinner() {
   let sumOfPlayer = player.sumOfCards();
@@ -251,15 +243,13 @@ function findWinner() {
   console.log(`Diler: ${diller.showCards()}`);
   $('.buttons').addClass('buttons-start');
   $('#dillerCards').empty();
-  let dx = 0;
-  let dy0 = -120;
-  let index = 0;
-  let whoes = diller;
-  for (let card of diller.items) {
-    $('#dillerCards').append(card.createFace(index, dy0, whoes));
-    index += 1;
+  let dy0 = 0;
+  for (let index = 0; index < diller.count(); index++) {
+    let card = diller.items[index];
+    $('#dillerCards').append(card.createFace(index, dy0));
   }
 }
+
 
 function addDillerCard(untillimit=false) {
   if (diller.sumOfCards() >= 17) return;
@@ -267,20 +257,20 @@ function addDillerCard(untillimit=false) {
   diller.add(card);
   let index = diller.count() - 1;
   let dy0 = 0;
-  card.createShirt(index, dy0);
+  $('#dillerCards').append(card.createShirt(index, dy0));
   if (untillimit) {
     addDillerCard(true);
   }
 }
 
+
 function addCard() {
   addDillerCard();
   let card = randomCard(deck);
   player.add(card);
-  let whoes = player;
-  index = player.count() - 1;
-  dy0 = 0;
-  $('#playerCards').append(card.createFace(index, dy0, whoes));
+  let index = player.count() - 1;
+  let dy0 = 120;
+  $('#playerCards').append(card.createFace(index, dy0));
   $('#playerResult').empty();
   $('#playerResult').append(player.sumOfCards());
   if (player.sumOfCards() >= 21) {
@@ -289,7 +279,25 @@ function addCard() {
   console.log(`Player: ${player.showCards()}`);
 }
 
+
 function end() {
   addDillerCard(true);
   findWinner();
 }
+
+
+$( document ).ready(function(evt) {
+  start();
+
+  $('#get-card').click(function(evt) {
+    addCard();
+  });
+
+  $('#end-round').click(function(evt) {
+    end();
+  });
+
+  $('#new-round').click(function(evt) {
+    start();
+  });
+});
