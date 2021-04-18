@@ -45,8 +45,8 @@ class Card {
     return suitText;
   }
 
-  createFace(index, dy0) {
-    let card = player.items[index];
+  createFace(index, dy0, whoes) {
+    let card = whoes.items[index];
     let dy = 120 + dy0;
     let dx = 55 * index;
     let group = card.createGroup();
@@ -254,8 +254,9 @@ function findWinner() {
   let dx = 0;
   let dy0 = -120;
   let index = 0;
+  let whoes = diller;
   for (let card of diller.items) {
-    $('#dillerCards').append(card.createFace(index, dy0));
+    $('#dillerCards').append(card.createFace(index, dy0, whoes));
     index += 1;
   }
 }
@@ -276,9 +277,10 @@ function addCard() {
   addDillerCard();
   let card = randomCard(deck);
   player.add(card);
+  let whoes = player;
   index = player.count() - 1;
   dy0 = 0;
-  $('#playerCards').append(card.createFace(index, dy0));
+  $('#playerCards').append(card.createFace(index, dy0, whoes));
   $('#playerResult').empty();
   $('#playerResult').append(player.sumOfCards());
   if (player.sumOfCards() >= 21) {
