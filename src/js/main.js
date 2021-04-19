@@ -12,7 +12,7 @@ class Card {
     .addClass('cardRect')
     .attr({
       x: 45 + dx,
-      y: 55 + dy,
+      y: 5 + dy,
       rx: 15,
       ry: 15,
       width: 50,
@@ -27,7 +27,7 @@ class Card {
     .addClass('cardWorth')
     .attr({
       x: 70 + dx,
-      y: 110 + dy
+      y: 60 + dy
     })
     .append(this.worth)
     .addClass(COLORS_CLASSES[this.color]);
@@ -39,14 +39,14 @@ class Card {
     $(suitText)
     .attr({
       x: 80 + dx,
-      y: 70 + dy
+      y: 20 + dy
     })
     .append(suit);
     return suitText;
   }
 
   createFace(index, dy0) {
-    let dx = 20 * index;
+    let dx = 30 * index;
     let dy = dy0;
     let group = this.createGroup(index);
 
@@ -65,7 +65,7 @@ class Card {
   }
 
   createShirt(index, dy0) {
-    let dx = 20 * index;
+    let dx = 30 * index;
     let dy = dy0;
     let group = this.createGroup();
 
@@ -278,7 +278,7 @@ function addCard() {
   let card = randomCard(deck);
   player.add(card);
   let index = player.count - 1;
-  let dy0 = 170;
+  let dy0 = 120;
   $('#playerCards').append(card.createFace(index, dy0));
   $('#playerResult').empty();
   $('#playerResult').append(player.value);
