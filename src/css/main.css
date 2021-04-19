@@ -12,11 +12,12 @@
 }
 
 #cardPicture {
-  height: 200px;
+  height: 300px;
   width: 610px;
 }
 .cardRect {
   fill: #dddddd;
+  stroke: black;
 }
 .cardWorth {
   font-family: Verdana;

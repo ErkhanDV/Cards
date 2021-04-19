@@ -12,7 +12,7 @@ class Card {
     .addClass('cardRect')
     .attr({
       x: 45 + dx,
-      y: 5 + dy,
+      y: 55 + dy,
       rx: 15,
       ry: 15,
       width: 50,
@@ -27,7 +27,7 @@ class Card {
     .addClass('cardWorth')
     .attr({
       x: 70 + dx,
-      y: 60 + dy
+      y: 110 + dy
     })
     .append(this.worth)
     .addClass(COLORS_CLASSES[this.color]);
@@ -39,16 +39,16 @@ class Card {
     $(suitText)
     .attr({
       x: 80 + dx,
-      y: 20 + dy
+      y: 70 + dy
     })
     .append(suit);
     return suitText;
   }
 
   createFace(index, dy0) {
-    let dx = 55 * index;
+    let dx = 20 * index;
     let dy = dy0;
-    let group = this.createGroup();
+    let group = this.createGroup(index);
 
     $(group).append(this.createRect(dx, dy));
 
@@ -65,35 +65,35 @@ class Card {
   }
 
   createShirt(index, dy0) {
-    let dx = 55 * index;
+    let dx = 20 * index;
     let dy = dy0;
     let group = this.createGroup();
 
     $(group).append(this.createRect(dx, dy));
 
     let suit = SUITS_DISPLAY.h;
-    dx = 3 + 55 * index;
+    dx = 3 + 20 * index;
     dy = dy0 + 46;
     let heartSymbol = this.createSuit(dx, dy, suit);
     $(heartSymbol).addClass('redSuit');
     $(group).append(heartSymbol);
 
     suit = SUITS_DISPLAY.s;
-    dx = 3 + 55 * index;
+    dx = 3 + 20 * index;
     dy = dy0 + 7;
     let spadeSymbol = this.createSuit(dx, dy, suit);
     $(spadeSymbol).addClass('blackSuit');
     $(group).append(spadeSymbol);
 
     suit = SUITS_DISPLAY.d;
-    dx = -22 + 55 * index;
+    dx = -22 + 20 * index;
     dy = dy0 + 7;
     let diamSymbol = this.createSuit(dx, dy, suit);
     $(diamSymbol).addClass('redSuit');
     $(group).append(diamSymbol);
 
     suit = SUITS_DISPLAY.c;
-    dx = -22 + 55 * index;
+    dx = -22 + 20 * index;
     dy = dy0 + 46;
     let clubSymbol = this.createSuit(dx, dy, suit);
     $(clubSymbol).addClass('blackSuit');
@@ -102,8 +102,17 @@ class Card {
     return group;
   }
 
+
   createGroup() {
-    return document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    $(group).attr ({
+      id: this.string
+    });
+    let id = $(group).attr('id');
+    $(group).click(function () {
+      cardUpper(id);
+    })
+    return group;
   }
 
   get string() {
@@ -269,7 +278,7 @@ function addCard() {
   let card = randomCard(deck);
   player.add(card);
   let index = player.count - 1;
-  let dy0 = 120;
+  let dy0 = 170;
   $('#playerCards').append(card.createFace(index, dy0));
   $('#playerResult').empty();
   $('#playerResult').append(player.value);
@@ -279,6 +288,15 @@ function addCard() {
   console.log(`Player: ${player.string}`);
 }
 
+function cardUpper(id) {
+  $('use').remove();
+  let cardUpper = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  $('#cardPicture').append(cardUpper);
+  $(cardUpper)
+  .attr ({
+    href: '#' +`${id}`
+  })
+}
 
 function end() {
   addDillerCard(true);
