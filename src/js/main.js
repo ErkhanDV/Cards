@@ -72,28 +72,28 @@ class Card {
     $(group).append(this.createRect(dx, dy));
 
     let suit = SUITS_DISPLAY.h;
-    dx = 3 + 20 * index;
+    dx = 3 + 30 * index;
     dy = dy0 + 46;
     let heartSymbol = this.createSuit(dx, dy, suit);
     $(heartSymbol).addClass('redSuit');
     $(group).append(heartSymbol);
 
     suit = SUITS_DISPLAY.s;
-    dx = 3 + 20 * index;
+    dx = 3 + 30 * index;
     dy = dy0 + 7;
     let spadeSymbol = this.createSuit(dx, dy, suit);
     $(spadeSymbol).addClass('blackSuit');
     $(group).append(spadeSymbol);
 
     suit = SUITS_DISPLAY.d;
-    dx = -22 + 20 * index;
+    dx = -22 + 30 * index;
     dy = dy0 + 7;
     let diamSymbol = this.createSuit(dx, dy, suit);
     $(diamSymbol).addClass('redSuit');
     $(group).append(diamSymbol);
 
     suit = SUITS_DISPLAY.c;
-    dx = -22 + 20 * index;
+    dx = -22 + 30 * index;
     dy = dy0 + 46;
     let clubSymbol = this.createSuit(dx, dy, suit);
     $(clubSymbol).addClass('blackSuit');
