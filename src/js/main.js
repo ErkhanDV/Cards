@@ -102,17 +102,17 @@ class Card {
     return group;
   }
 
-  highLight() {
+  highlight() {
     $('use').remove();
-    let highLight = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    $('#cardPicture').append(highLight);
-    $(highLight).attr('href', `#${this.id}`)
+    let highlight = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    $('#cardPicture').append(highlight);
+    $(highlight).attr('href', `#${this.id}`);
   }
 
   createGroup() {
     let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     $(group).attr('id', `${this.id}`);
-    $(group).click((evt) => this.highLight());
+    $(group).click((evt) => this.highlight());
     return group;
   }
 
@@ -121,7 +121,7 @@ class Card {
   }
 
   get id() {
-    return `card_${this.string}`
+    return `card_${this.string}`;
   }
 }
 
