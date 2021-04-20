@@ -102,21 +102,31 @@ class Card {
     return group;
   }
 
+  highLight() {
+    $('use').remove();
+    let highLight = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    $('#cardPicture').append(highLight);
+    $(highLight)
+    .attr ({
+      href: `#${this.id}`
+    })
+  }
 
   createGroup() {
     let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    $(group).attr ({
-      id: this.string
+    $(group).attr({
+      id: this.id
     });
-    let id = $(group).attr('id');
-    $(group).click(function () {
-      cardUpper(id);
-    })
+    $(group).click((evt) => this.highLight());
     return group;
   }
 
   get string() {
     return `${this.worth}${this.suit}`;
+  }
+
+  get id() {
+    return `card_${this.string}`
   }
 }
 
@@ -286,16 +296,6 @@ function addCard() {
     end();
   }
   console.log(`Player: ${player.string}`);
-}
-
-function cardUpper(id) {
-  $('use').remove();
-  let cardUpper = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-  $('#cardPicture').append(cardUpper);
-  $(cardUpper)
-  .attr ({
-    href: '#' +`${id}`
-  })
 }
 
 function end() {
