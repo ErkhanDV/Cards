@@ -106,17 +106,12 @@ class Card {
     $('use').remove();
     let highLight = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     $('#cardPicture').append(highLight);
-    $(highLight)
-    .attr ({
-      href: `#${this.id}`
-    })
+    $(highLight).attr('href', `#${this.id}`)
   }
 
   createGroup() {
     let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    $(group).attr({
-      id: this.id
-    });
+    $(group).attr('id', `${this.id}`);
     $(group).click((evt) => this.highLight());
     return group;
   }
