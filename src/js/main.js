@@ -1,3 +1,45 @@
+const WORTHS = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
+const SUITS = [ 'c', 'd', 's', 'h' ];
+const SUITS_DISPLAY = {
+  c: '&clubs;',
+  d: '&diams;',
+  s: '&spades;',
+  h: '&hearts;'
+};
+const VALUES = {
+  '2': 2,
+  '3': 3,
+  '4': 4,
+  '5': 5,
+  '6': 6,
+  '7': 7,
+  '8': 8,
+  '9': 9,
+  'T': 10,
+  'J': 10,
+  'Q': 10,
+  'K': 10,
+  'A': 11
+};
+const RED_COLOR = 'red';
+const BLACK_COLOR = 'black';
+const COLORS_BY_SUITS = {
+  c: BLACK_COLOR,
+  d: RED_COLOR,
+  s: BLACK_COLOR,
+  h: RED_COLOR
+};
+const COLORS_CLASSES = {
+  [BLACK_COLOR]: 'color-card-black',
+  [RED_COLOR]: 'color-card-red'
+};
+
+
+function createSVG(name) {
+  return document.createElementNS('http://www.w3.org/2000/svg', name);
+}
+
+
 class Card {
   constructor(worth, suit) {
     this.worth = worth;
@@ -6,8 +48,16 @@ class Card {
     this.color = COLORS_BY_SUITS[suit];
   }
 
+  get id() {
+    return `card_${this.string}`;
+  }
+
+  get string() {
+    return `${this.worth}${this.suit}`;
+  }
+
   createRect(dx, dy) {
-    let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    let rect = createSVG('rect');
     $(rect)
     .addClass('cardRect')
     .attr({
@@ -22,7 +72,7 @@ class Card {
   }
 
   createWorth(dx, dy) {
-    let worthText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    let worthText = createSVG('text');
     $(worthText)
     .addClass('cardWorth')
     .attr({
@@ -35,7 +85,7 @@ class Card {
   }
 
   createSuit(dx, dy, suit) {
-    let suitText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    let suitText = createSVG('text');
     $(suitText)
     .attr({
       x: 80 + dx,
@@ -104,38 +154,24 @@ class Card {
 
   highlight() {
     $('use').remove();
-    let highlight = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    let highlight = createSVG('use');
     $('#cardPicture').append(highlight);
     $(highlight).attr('href', `#${this.id}`);
   }
 
   createGroup() {
-    let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    $(group).attr('id', `${this.id}`);
-    $(group).click((evt) => this.highlight());
+    let group = createSVG('g');
+    $(group)
+    .attr('id', this.id)
+    .addClass('card')
+    .click((evt) => this.highlight());
     return group;
-  }
-
-  get string() {
-    return `${this.worth}${this.suit}`;
-  }
-
-  get id() {
-    return `card_${this.string}`;
   }
 }
 
 
 class Cards {
   constructor() {
-    this.items = [];
-  }
-
-  add(card) {
-    this.items.push(card);
-  }
-
-  clean() {
     this.items = [];
   }
 
@@ -163,44 +199,15 @@ class Cards {
   get count() {
     return this.items.length;
   }
+
+  add(card) {
+    this.items.push(card);
+  }
+
+  clean() {
+    this.items = [];
+  }
 }
-
-
-const WORTHS = [ '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' ];
-const SUITS = [ 'c', 'd', 's', 'h' ];
-const SUITS_DISPLAY = {
-  c: '&clubs;',
-  d: '&diams;',
-  s: '&spades;',
-  h: '&hearts;'
-};
-const VALUES = {
-  '2': 2,
-  '3': 3,
-  '4': 4,
-  '5': 5,
-  '6': 6,
-  '7': 7,
-  '8': 8,
-  '9': 9,
-  'T': 10,
-  'J': 10,
-  'Q': 10,
-  'K': 10,
-  'A': 11 
-};
-const RED_COLOR = 'red';
-const BLACK_COLOR = 'black';
-const COLORS_BY_SUITS = {
-  c: BLACK_COLOR,
-  d: RED_COLOR,
-  s: BLACK_COLOR,
-  h: RED_COLOR
-};
-const COLORS_CLASSES = {
-  [BLACK_COLOR]: 'color-card-black',
-  [RED_COLOR]: 'color-card-red'
-};
 
 
 var diller = new Cards;

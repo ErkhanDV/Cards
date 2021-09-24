@@ -5,7 +5,7 @@
   display: none;
 }
 .buttons > .button-start {
-  display: none; 
+  display: none;
 }
 .buttons.buttons-start > .button-start {
   display: block;
@@ -14,6 +14,10 @@
 #cardPicture {
   height: 220px;
   width: 610px;
+}
+
+.card {
+  cursor: pointer;
 }
 .cardRect {
   fill: #dddddd;
@@ -27,6 +31,7 @@
 .cardSuit {
   font-size: 15px;
 }
+
 .color-card-black {
   fill: black;
 }
@@ -39,6 +44,7 @@
   stroke: red;
   stroke-width: 1;
 }
+
 .redSuit {
   fill: red;
   font-size: 23px;
@@ -47,7 +53,7 @@
 .blackSuit {
   fill: black;
   font-size: 23px;
-  text-anchor: middle; 
+  text-anchor: middle;
 }
 
 .finalText {
