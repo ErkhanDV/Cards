@@ -225,10 +225,9 @@ class Cards {
   }
 
   drawAll() {
-    let cardVisual;
     for (let item of this.items) {
       let index = this.items.indexOf(item);
-      cardVisual = item.createFace(index, this.dy);
+      let cardVisual = item.createFace(index, this.dy);
       $(`#${this.groupId}`).append(cardVisual);
     }
   }
@@ -294,7 +293,6 @@ function findWinner() {
   $('.buttons').addClass('buttons-start');
   $('#dillerCards').empty();
   diller.drawAll();
-  player.drawAll();
 }
 
 
