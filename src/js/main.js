@@ -217,18 +217,19 @@ class Cards {
     if (this.count == 0) return;
     let lastIndex = this.count - 1;
     if (hided) {
-      cardVisual = this.items[lastIndex].createFace(lastIndex, this.dy);
-      $(`#${this.groupId}`).append(cardVisual);
-    } else {
       cardVisual = this.items[lastIndex].createShirt(lastIndex, this.dy);
-      $(`#${this.groupId}`).append(cardVisual);
+    } else {
+      cardVisual = this.items[lastIndex].createFace(lastIndex, this.dy);
     }
+    $(`#${this.groupId}`).append(cardVisual);
   }
 
   drawAll() {
-    for (item of this.items) {
+    let cardVisual;
+    for (let item of this.items) {
       let index = this.items.indexOf(item);
-      item.createFace(index, this.dy);
+      cardVisual = item.createFace(index, this.dy);
+      $(`#${this.groupId}`).append(cardVisual);
     }
   }
 
@@ -292,18 +293,15 @@ function findWinner() {
   console.log(`Diler: ${diller.string}`);
   $('.buttons').addClass('buttons-start');
   $('#dillerCards').empty();
-  let dy0 = 0;
-  for (let index = 0; index < diller.count; index++) {
-    let card = diller.items[index];
-    $('#dillerCards').append(card.createFace(index, dy0));
-  }
+  diller.drawAll();
+  player.drawAll();
 }
 
 
 function addDillerCard(untillimit=false) {
   if (diller.value >= 17) return;
   let card = randomCard(deck)
-  diller.add(card);
+  diller.add(card, true);
   if (untillimit) {
     addDillerCard(true);
   }
@@ -312,8 +310,7 @@ function addDillerCard(untillimit=false) {
 
 function addCard() {
   addDillerCard();
-  addPlayerCard();
-  
+  addPlayerCard();  
 }
 
 
