@@ -259,93 +259,91 @@ class Deck {
 }
 
 
-var diller = new Cards(0, 'dillerCards');
-var player = new Cards(120, 'playerCards');
-var deck;
+class Game {
+  constructor() {
+    this.player = new Cards(120, 'playerCards');
+    this.diller = new Cards(0, 'dillerCards');
+    this.deck = new Deck();
 
+    $(document).ready(function(evt) {
+      game.start();
 
-function start() {
-  $('g').empty();
-  $('text').empty();
-  $('.buttons').removeClass('buttons-start');
-  deck = new Deck();
-  diller.clean();
-  player.clean();
-  addCard();
-  addCard();
-}
+      $('#get-card').click(function(evt) {
+        game.addCard();
+      });
 
+      $('#end-round').click(function(evt) {
+        game.end();
+      });
 
-function findWinner() {
-  let sumOfPlayer = player.value;
-  let sumOfDiller = diller.value;
-  if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
-    $('#winerText').append('Tied!');
-    console.log('Tied!');
-  } else if (sumOfPlayer > 21) {
-    $('#winerText').append('Diler WIN!');
-    console.log('Diler Win!');
-  } else if (sumOfDiller > 21 || sumOfPlayer > sumOfDiller) {
-    $('#winerText').append('Player WIN!');
-    console.log('Player Win!');
-  } else {
-    $('#winerText').append('Diler WIN!');
-    console.log('Diler Win!');
+      $('#new-round').click(function(evt) {
+        game.start()
+      });
+    });
   }
-  $('#dillerResult').append(diller.value);
-  console.log(`Diler: ${diller.string}`);
-  $('.buttons').addClass('buttons-start');
-  $('#dillerCards').empty();
-  diller.drawAll();
-}
 
+  start() {
+    $('g').empty();
+    $('text').empty();
+    $('.buttons').removeClass('buttons-start');
+    this.diller.clean();
+    this.player.clean();
+    this.addCard();
+    this.addCard();
+  }
 
-function addDillerCard(untillimit=false) {
-  if (diller.value >= 17) return;
-  let card = deck.getCard();
-  diller.add(card, true);
-  if (untillimit) {
-    addDillerCard(true);
+  findWinner() {
+    let sumOfPlayer = this.player.value;
+    let sumOfDiller = this.diller.value;
+    if (sumOfPlayer > 21 && sumOfDiller > 21 || sumOfPlayer == sumOfDiller) {
+      $('#winerText').append('Tied!');
+      console.log('Tied!');
+    } else if (sumOfPlayer > 21) {
+      $('#winerText').append('Diler WIN!');
+      console.log('Diler Win!');
+    } else if (sumOfDiller > 21 || sumOfPlayer > sumOfDiller) {
+      $('#winerText').append('Player WIN!');
+      console.log('Player Win!');
+    } else {
+      $('#winerText').append('Diler WIN!');
+      console.log('Diler Win!');
+    }
+    $('#dillerResult').append(this.diller.value);
+    console.log(`Diler: ${this.diller.string}`);
+    $('.buttons').addClass('buttons-start');
+    $('#dillerCards').empty();
+    this.diller.drawAll();
+  }
+
+  addDillerCard(untillimit=false) {
+    if (this.diller.value >= 17) return;
+    let card = this.deck.getCard();
+    this.diller.add(card, true);
+    if (untillimit) {
+      this.addDillerCard(true);
+    }
+  }
+
+  addCard() {
+    this.addDillerCard();
+    this.addPlayerCard();  
+  }
+
+  addPlayerCard () {
+    let card = this.deck.getCard();
+    this.player.add(card);
+    $('#playerResult').empty();
+    $('#playerResult').append(this.player.value);
+    if (this.player.value >= 21) {
+      this.end();
+    }
+    console.log(`Player: ${this.player.string}`);
+  }
+
+  end() {
+    this.addDillerCard(true);
+    this.findWinner();
   }
 }
 
-
-function addCard() {
-  addDillerCard();
-  addPlayerCard();  
-}
-
-
-function addPlayerCard () {
-  let card = deck.getCard();
-  player.add(card);
-  $('#playerResult').empty();
-  $('#playerResult').append(player.value);
-  if (player.value >= 21) {
-    end();
-  }
-  console.log(`Player: ${player.string}`);
-}
-
-
-function end() {
-  addDillerCard(true);
-  findWinner();
-}
-
-
-$( document ).ready(function(evt) {
-  start();
-
-  $('#get-card').click(function(evt) {
-    addCard();
-  });
-
-  $('#end-round').click(function(evt) {
-    end();
-  });
-
-  $('#new-round').click(function(evt) {
-    start();
-  });
-});
+const game = new Game();
