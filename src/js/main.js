@@ -241,6 +241,7 @@ class Cards {
 class Deck {
   constructor() {
     this.items = [];
+    this.create();
   }
 
   create() {
@@ -260,7 +261,7 @@ class Deck {
 
 var diller = new Cards(0, 'dillerCards');
 var player = new Cards(120, 'playerCards');
-var deck = [];
+var deck;
 
 
 function start() {
@@ -268,7 +269,6 @@ function start() {
   $('text').empty();
   $('.buttons').removeClass('buttons-start');
   deck = new Deck();
-  deck.create();
   diller.clean();
   player.clean();
   addCard();
