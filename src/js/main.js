@@ -266,16 +266,11 @@ class Game {
     this.deck = new Deck();
 
     $(document).ready(evt => {
-      this.start()
-      $('#get-card').click(evt => this.addCard())
-      $('#end-round').click(evt => this.end())
-      $('#new-round').click(evt => this.start())
+      this.start();
+      $('#get-card').click(evt => this.addCard());
+      $('#end-round').click(evt => this.end());
+      $('#new-round').click(evt => this.start());
     });
-  }
-
-  end() {
-    this.addDillerCard(true);
-    this.findWinner();
   }
 
   start() {
@@ -286,6 +281,11 @@ class Game {
     this.player.clean();
     this.addCard();
     this.addCard();
+  }
+
+  end() {
+    this.addDillerCard(true);
+    this.findWinner();
   }
 
   addCard() {
