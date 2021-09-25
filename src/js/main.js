@@ -265,21 +265,17 @@ class Game {
     this.diller = new Cards(0, 'dillerCards');
     this.deck = new Deck();
 
-    $(document).ready(function(evt) {
-      game.start();
-
-      $('#get-card').click(function(evt) {
-        game.addCard();
-      });
-
-      $('#end-round').click(function(evt) {
-        game.end();
-      });
-
-      $('#new-round').click(function(evt) {
-        game.start()
-      });
+    $(document).ready(evt => {
+      this.start()
+      $('#get-card').click(evt => this.addCard())
+      $('#end-round').click(evt => this.end())
+      $('#new-round').click(evt => this.start())
     });
+  }
+
+  end() {
+    this.addDillerCard(true);
+    this.findWinner();
   }
 
   start() {
@@ -290,6 +286,31 @@ class Game {
     this.player.clean();
     this.addCard();
     this.addCard();
+  }
+
+  addCard() {
+    this.addDillerCard();
+    this.addPlayerCard();  
+  }
+
+  addDillerCard(untillimit=false) {
+    if (this.diller.value >= 17) return;
+    let card = this.deck.getCard();
+    this.diller.add(card, true);
+    if (untillimit) {
+      this.addDillerCard(true);
+    }
+  }
+
+  addPlayerCard () {
+    let card = this.deck.getCard();
+    this.player.add(card);
+    $('#playerResult').empty();
+    $('#playerResult').append(this.player.value);
+    if (this.player.value >= 21) {
+      this.end();
+    }
+    console.log(`Player: ${this.player.string}`);
   }
 
   findWinner() {
@@ -314,36 +335,6 @@ class Game {
     $('#dillerCards').empty();
     this.diller.drawAll();
   }
-
-  addDillerCard(untillimit=false) {
-    if (this.diller.value >= 17) return;
-    let card = this.deck.getCard();
-    this.diller.add(card, true);
-    if (untillimit) {
-      this.addDillerCard(true);
-    }
-  }
-
-  addCard() {
-    this.addDillerCard();
-    this.addPlayerCard();  
-  }
-
-  addPlayerCard () {
-    let card = this.deck.getCard();
-    this.player.add(card);
-    $('#playerResult').empty();
-    $('#playerResult').append(this.player.value);
-    if (this.player.value >= 21) {
-      this.end();
-    }
-    console.log(`Player: ${this.player.string}`);
-  }
-
-  end() {
-    this.addDillerCard(true);
-    this.findWinner();
-  }
 }
 
-const game = new Game();
+new Game();
