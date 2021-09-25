@@ -238,33 +238,37 @@ class Cards {
 }
 
 
+class Deck {
+  constructor() {
+    this.items = [];
+  }
+
+  create() {
+    for (let i = 0; i < SUITS.length; i++) {
+      for (let j = 0; j < WORTHS.length; j++) {
+        this.items.push(new Card(WORTHS[j], SUITS[i]));
+      }
+    }
+  }
+
+  getCard() {
+    let index = Math.floor(Math.random() * this.items.length);
+    return this.items.splice(index, 1)[0];
+  }
+}
+
+
 var diller = new Cards(0, 'dillerCards');
 var player = new Cards(120, 'playerCards');
 var deck = [];
-
-
-function createDeck() {
-  deck = [];
-  for (let i = 0; i < SUITS.length; i++) {
-    for (let j = 0; j < WORTHS.length; j++) {
-      deck.push(new Card(WORTHS[j], SUITS[i]));
-    }
-  }
-  return deck;
-}
-
-
-function randomCard(deck) {
-  let index = Math.floor(Math.random() * deck.length);
-  return deck.splice(index, 1)[0];
-}
 
 
 function start() {
   $('g').empty();
   $('text').empty();
   $('.buttons').removeClass('buttons-start');
-  deck = createDeck();
+  deck = new Deck();
+  deck.create();
   diller.clean();
   player.clean();
   addCard();
@@ -298,7 +302,7 @@ function findWinner() {
 
 function addDillerCard(untillimit=false) {
   if (diller.value >= 17) return;
-  let card = randomCard(deck)
+  let card = deck.getCard();
   diller.add(card, true);
   if (untillimit) {
     addDillerCard(true);
@@ -313,7 +317,7 @@ function addCard() {
 
 
 function addPlayerCard () {
-  let card = randomCard(deck);
+  let card = deck.getCard();
   player.add(card);
   $('#playerResult').empty();
   $('#playerResult').append(player.value);
