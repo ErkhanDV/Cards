@@ -171,8 +171,10 @@ class Card {
 
 
 class Cards {
-  constructor() {
+  constructor(dy, groupId) {
     this.items = [];
+    this.dy = dy;
+    this.groupId = groupId;
   }
 
   get value() {
@@ -200,18 +202,44 @@ class Cards {
     return this.items.length;
   }
 
-  add(card) {
+  add(card, hided=false) {
     this.items.push(card);
+    this.drawLatest(hided);
   }
 
   clean() {
     this.items = [];
+    this.removeAll();
+  }
+
+  drawLatest(hided=false) {
+    let cardVisual;
+    if (this.count == 0) return;
+    let lastIndex = this.count - 1;
+    if (hided) {
+      cardVisual = this.items[lastIndex].createFace(lastIndex, this.dy);
+      $(`#${this.groupId}`).append(cardVisual);
+    } else {
+      cardVisual = this.items[lastIndex].createShirt(lastIndex, this.dy);
+      $(`#${this.groupId}`).append(cardVisual);
+    }
+  }
+
+  drawAll() {
+    for (item of this.items) {
+      let index = this.items.indexOf(item);
+      item.createFace(index, this.dy);
+    }
+  }
+
+  removeAll() {
+    $(`#${this.groupId}`).empty();
   }
 }
 
 
-var diller = new Cards;
-var player = new Cards;
+var diller = new Cards(0, 'dillerCards');
+var player = new Cards(120, 'playerCards');
 var deck = [];
 
 
@@ -276,9 +304,6 @@ function addDillerCard(untillimit=false) {
   if (diller.value >= 17) return;
   let card = randomCard(deck)
   diller.add(card);
-  let index = diller.count - 1;
-  let dy0 = 0;
-  $('#dillerCards').append(card.createShirt(index, dy0));
   if (untillimit) {
     addDillerCard(true);
   }
@@ -287,11 +312,14 @@ function addDillerCard(untillimit=false) {
 
 function addCard() {
   addDillerCard();
+  addPlayerCard();
+  
+}
+
+
+function addPlayerCard () {
   let card = randomCard(deck);
   player.add(card);
-  let index = player.count - 1;
-  let dy0 = 120;
-  $('#playerCards').append(card.createFace(index, dy0));
   $('#playerResult').empty();
   $('#playerResult').append(player.value);
   if (player.value >= 21) {
@@ -299,6 +327,7 @@ function addCard() {
   }
   console.log(`Player: ${player.string}`);
 }
+
 
 function end() {
   addDillerCard(true);
