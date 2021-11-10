@@ -3,26 +3,31 @@
   <head>
 
     <meta charset='utf-8'>
-    <title>Cards</title>
+    <title>Black Jack</title>
     <link href='src/css/main.css' rel='stylesheet'>
 
   </head>
 
   <body>
+    <header>
+      <h1>
+        Let's try your luck! :)
+      </h1>
+    </header>
 
-    <div class='buttons'>
-      <button id='get-card' class='button-regular'>Взять карту</button>
-      <button id='end-round' class='button-regular'>Завершить</button>
-      <button id='new-round' class='button-start'>Новый раунд</button>
-    </div>
-
-    <svg id='cardPicture' viewBox='0 0 610 220' xmlns='http://www.w3.org/2000/svg'>
+    <svg id='cardPicture' viewBox='0 0 310 220' xmlns='http://www.w3.org/2000/svg'>
       <g id='dillerCards' xmlns='http://www.w3.org/2000/svg'></g>
       <g id='playerCards' xmlns='http://www.w3.org/2000/svg'></g>
       <text id='dillerResult' x='15' y='45' class='finalPoints' xmlns='http://www.w3.org/2000/svg'></text>
       <text id='playerResult' x='15' y='165' class='finalPoints' xmlns='http://www.w3.org/2000/svg'></text>
       <text id='winerText' x='55' y='110' class='finalText' xmlns='http://www.w3.org/2000/svg'></text>
     </svg>
+
+    <div class='buttons'>
+      <button id='get-card' class='button-regular'>Add card</button>
+      <button id='end-round' class='button-regular'>So full disclosure...</button>
+      <button id='new-round' class='button-start'>I want to try again (:</button>
+    </div>
 
     <script src='https://code.jquery.com/jquery-3.6.0.min.js'
     integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4='

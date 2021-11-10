@@ -1,3 +1,29 @@
+body {
+  text-align: center;
+  font-family: sans-serif;
+  color: #333;
+  line-height: 1.5;
+  height: 100vh;
+  background: linear-gradient(to top left, #28b487, #7dd56f);
+}
+.button-regular {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem 1rem;
+  background-color: rgb(112, 219, 223);
+  color: #444;
+  border-radius: 5rem;
+  cursor: pointer;
+}
+.button-start {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem 1rem;
+  background-color: rgb(112, 219, 223);
+  color: #444;
+  border-radius: 5rem;
+  cursor: pointer;
+}
 .buttons > .button-regular {
   display: inline-block;
 }
@@ -8,7 +34,7 @@
   display: none;
 }
 .buttons.buttons-start > .button-start {
-  display: block;
+  display: inline-block;
 }
 
 #cardPicture {
